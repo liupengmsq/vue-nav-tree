@@ -1,0 +1,14 @@
+html {
+    font-size: 100px; // 相当于配置了1rem = 100px
+}
+body {
+    font-size: .12rem; // 相当于配置了body里的字体默认是100px * 0.12 = 12px
+    font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+a {
+    color: #444;
+    text-decoration: none;
+}
+i { 
+    font-style:normal
+}
