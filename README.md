@@ -1,4 +1,8 @@
-# vue_test
+# vue_nav_tree
+
+## Demo for Nav tree
+src/views/AboutView.vue
+src/store/index.js
 
 ## Project setup
 ```
