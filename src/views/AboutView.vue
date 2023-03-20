@@ -15,8 +15,9 @@ export default {
     const store = useStore();
     const finalHtml = computed(() => store.getters.getFinalRawHTML );
 
+    // 初始化左侧导航栏
     onMounted(() => {
-      store.dispatch('printAllNodes');
+      store.dispatch('generateNavTree');
     });
 
     // 通过在vue的raw html的父节点上监控事件触发，来实现raw html的事件处理
