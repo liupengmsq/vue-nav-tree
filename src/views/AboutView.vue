@@ -74,7 +74,7 @@ export default {
 }
 </script>
 
-// 这里的css不能使用scoped局部样式，因为我们要应用到raw html上
+// 这里的css不能使用scoped局部样式, 因为我们要应用到raw html上
 <style lang="scss">
 .nav {
   font-size: .1rem;
