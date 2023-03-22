@@ -3,12 +3,12 @@ import { get } from '../utils/request';
 
 // 从后端API "GET /api/nav" 获取导航栏信息
 const getNavTree = async () => {
-  const result = await get(`/api/nav`);
+  const result = await get(`/api/nav/tree`);
   console.log('Get from /api/nav', result);
 
   const nodeList = {};
   for(const node of result) {
-    nodeList[node.id] = new Node(node.id, node.depth, node.content, node.root);
+    nodeList[node.id] = new Node(node.id, node.depth, node.content, node.root, node.parentId);
   }
   var root = null;
   for(const node of result) {
@@ -25,8 +25,9 @@ const getNavTree = async () => {
 }
 
 //定义一个节点的类Node
-function Node(id, depth, content, isRoot) {
+function Node(id, depth, content, isRoot, parentId) {
   this.id = id;
+  this.parentId = parentId;
 
   // 当前节点在树中的深度
   this.depth = depth;
@@ -51,7 +52,7 @@ function Node(id, depth, content, isRoot) {
   
   // 当前节点的开始div的内容，拼出其属性与style的内容
   this.getStartTag = function() {
-    var startTag = `<div id="${this.id}" style="position:relative; display:`;
+    var startTag = `<div id="${this.id}" parendId="${this.parentId}" depth="${this.depth}" style="position:relative; display:`;
 
     // 默认情况下，之显示根节点，与其直接子节点的内容，更深的节点隐藏起来
     if(depth > 1) {
