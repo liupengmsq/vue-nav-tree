@@ -7,6 +7,7 @@
 <script>
 import { useStore } from 'vuex';
 import { computed, onMounted } from 'vue';
+import { expand_nav_tree_node, collapse_nav_tree_node, select_nav_tree_node, show_nav_tree_node, unshow_nav_tree_node } from '../utils/nav';
 
 export default {
   name: 'AboutView',
@@ -38,6 +39,9 @@ export default {
         // 将选中的节点标记为高亮
         console.log('Mark selected item in nav list');
         e.target.classList.add('nav-selected');
+
+        // 状态保存到localStorage中
+        select_nav_tree_node(e.target.id);
       }
 
       // 处理当用户点击某个节点文字前的展开或隐藏图标
@@ -49,19 +53,24 @@ export default {
           if(child.tagName === 'DIV') {
             if (child.style.display === "none") {
               child.style.display = "block";
+              show_nav_tree_node(child.id);
             } else {
               child.style.display = "none";
+              unshow_nav_tree_node(child.id);
             }
           }
         }
 
         // 将选中的节点的展开或者折叠的图标更换
-        if (e.target.classList.contains('icon-nodeexpand')) {
-          e.target.classList.remove('icon-nodeexpand');
-          e.target.classList.add('icon-expand');
-        } else if (e.target.classList.contains('icon-expand')) {
-          e.target.classList.remove('icon-expand');
-          e.target.classList.add('icon-nodeexpand');
+        if (e.target.classList.contains('icon-expanded')) {
+          e.target.classList.remove('icon-expanded');
+          e.target.classList.add('icon-collapsed');
+          collapse_nav_tree_node(e.target.id);
+
+        } else if (e.target.classList.contains('icon-collapsed')) {
+          e.target.classList.remove('icon-collapsed');
+          e.target.classList.add('icon-expanded');
+          expand_nav_tree_node(e.target.id);
         }
       }
     }
