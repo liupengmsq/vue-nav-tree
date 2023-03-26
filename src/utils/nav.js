@@ -1,7 +1,7 @@
-import { get } from '../utils/request';
+import { get, deleteAPI } from '../utils/request';
 
 // 从后端API与localStorage构造出节点的树结构，并返回根节点
-export const getNavTree = async () => {
+export const getNavTree = async (manageMode=false) => {
   // 从后端API "GET /api/nav" 获取导航栏信息
   const result = await get(`/api/nav/tree`);
   console.log('Get from /api/nav', result);
@@ -48,7 +48,8 @@ export const getNavTree = async () => {
       node.parentId,
       nodeStatusList[node.id]?.shown, 
       nodeStatusList[node.id]?.expanded, 
-      nodeStatusList[node.id]?.selected);
+      nodeStatusList[node.id]?.selected,
+      manageMode);
   }
 
   // 构造出Node对象代表的节点彼此的父子关系，并将根节点返回
@@ -67,7 +68,7 @@ export const getNavTree = async () => {
 }
 
 //定义一个节点的类Node
-function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false, selected=false) {
+function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false, selected=false, manageMode=false) {
   this.id = id;
   this.parentId = parentId;
 
@@ -92,8 +93,20 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
   // 当前节点是否是选中的
   this.selected = selected;
 
+  this.manageMode = manageMode;
+  this.getManageButttons = function() {
+    return `<input id="${this.id}" type="button" class="manage_button" value="新建">` +
+        `<input id="${this.id}" type="button" class="manage_button" value="编辑">` + 
+        `<input id="${this.id}" type="button" class="manage_button" value="删除">`;
+  }
+
   // 节点附带的内容信息，这里使用超链接。用户点击此节点后，右侧应该显示对应的内容
-  this.content = `<a id="${this.id}" href="http://localhost:8080/about" style="display:block" `;
+  this.content = `<a id="${this.id}" href="http://localhost:8080/about" `;
+  if (this.manageMode) {
+    this.content += `style="display:inlin-block" `;
+  } else {
+    this.content += `style="display:block" `;
+  }
   if (this.selected) {
     this.content +=  `class="nav-selected"`;
   }
@@ -214,4 +227,9 @@ export const select_nav_tree_node = (nodeId) => {
   } else {
     console.log('No node id in local storage:', nodeId);
   }
+}
+
+export const deleteNavTreeNode = async (nodeId) => {
+    const result = await deleteAPI(`/api/nav/tree/${nodeId}`);
+    console.log('Delete from /api/nav', result);
 }

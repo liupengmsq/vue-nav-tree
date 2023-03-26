@@ -17,8 +17,13 @@ export default createStore({
   },
   mutations: {
     // 递归调用此方法，打印以当前state.currentNode为根节点的树
-    generateHTMLTree(state) {
+    generateHTMLTree(state, payload) {
+      const { manageMode } = payload;
+      if (manageMode) {
+        console.log('In manage mode!!!!');
+      }
       console.log('generateHTMLTree', state.currentNode);
+
       // 当前节点是空，说明当前节点是叶子节点，不用继续处理了。
       if(!state.currentNode) {
         return;
@@ -29,9 +34,12 @@ export default createStore({
       console.log(state.currentNode.getStartTag());
       state.finalRawHtml += state.currentNode.getStartTag();
       state.finalRawHtml += state.currentNode.content;
+      if (manageMode) {
+        state.finalRawHtml += state.currentNode.getManageButttons();
+      }
       for(const child of state.currentNode.childNodes) {
         state.currentNode = child;
-        this.commit('generateHTMLTree') //递归调用当前的generateHTMLTree(state)方法，打印以当前child为根节点的子树
+        this.commit('generateHTMLTree', payload) //递归调用当前的generateHTMLTree(state)方法，打印以当前child为根节点的子树
       }
       state.finalRawHtml += state.currentNode.endTag;
     },
@@ -39,7 +47,8 @@ export default createStore({
   actions: {
     // 生成新的节点树（从后端API读取树的信息，然后在前端构造出一棵树）
     async generateNavTree({ commit, state }, payload) {
-      const root = await getNavTree();
+      const { manageMode } = payload;
+      const root = await getNavTree(manageMode);
       console.log('root from getNavTree()', root);
 
       // 用state全局对象保存树的根节点

@@ -32,3 +32,18 @@ export const post = (url, data = {}) => {
         })
     });
 }
+
+export const deleteAPI = (url, data = {}) => {
+    return new Promise((resolve, reject) => {
+        instance.delete(url, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            resolve(response.data);
+        }, err => {
+            console.log('error in post', err);
+            reject(err);
+        })
+    });
+}

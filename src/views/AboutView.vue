@@ -1,24 +1,31 @@
 <template>
   <div>
+    <div>
+      <input type="button" value="管理" @click="enableManageNavTreeMode">
+      <input type="button" value="返回" @click="disableManageNavTreeMode">
+    </div>
     <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
   </div>
 </template>
 
 <script>
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { computed, onMounted } from 'vue';
-import { expand_nav_tree_node, collapse_nav_tree_node, select_nav_tree_node, show_nav_tree_node, unshow_nav_tree_node } from '../utils/nav';
+import * as nav_util from '../utils/nav';
 
 export default {
   name: 'AboutView',
 
   setup () {
     const store = useStore();
+    const router = useRouter();
+
     const finalHtml = computed(() => store.getters.getFinalRawHTML );
 
     // 初始化左侧导航栏
     onMounted(() => {
-      store.dispatch('generateNavTree');
+      store.dispatch('generateNavTree', { manageMode: false });
     });
 
     // 通过在vue的raw html的父节点上监控事件触发，来实现raw html的事件处理
@@ -41,7 +48,7 @@ export default {
         e.target.classList.add('nav-selected');
 
         // 状态保存到localStorage中
-        select_nav_tree_node(e.target.id);
+        nav_util.select_nav_tree_node(e.target.id);
       }
 
       // 处理当用户点击某个节点文字前的展开或隐藏图标
@@ -53,10 +60,10 @@ export default {
           if(child.tagName === 'DIV') {
             if (child.style.display === "none") {
               child.style.display = "block";
-              show_nav_tree_node(child.id);
+              nav_util.show_nav_tree_node(child.id);
             } else {
               child.style.display = "none";
-              unshow_nav_tree_node(child.id);
+              nav_util.unshow_nav_tree_node(child.id);
             }
           }
         }
@@ -65,19 +72,46 @@ export default {
         if (e.target.classList.contains('icon-expanded')) {
           e.target.classList.remove('icon-expanded');
           e.target.classList.add('icon-collapsed');
-          collapse_nav_tree_node(e.target.id);
+          nav_util.collapse_nav_tree_node(e.target.id);
 
         } else if (e.target.classList.contains('icon-collapsed')) {
           e.target.classList.remove('icon-collapsed');
           e.target.classList.add('icon-expanded');
-          expand_nav_tree_node(e.target.id);
+          nav_util.expand_nav_tree_node(e.target.id);
+        }
+      }
+
+      if(e.target.tagName === 'INPUT') {
+        console.log(e.target.id);
+        if (e.target.value === "新建") {
+          console.log("新建子节点", e.target.value);
+        }
+        if (e.target.value === "编辑") {
+          console.log("编辑当前节点", e.target.value);
+        }
+        if (e.target.value === "删除") {
+          console.log("删除当前节点", e.target.value);
+          nav_util.deleteNavTreeNode(e.target.id);
+          router.go();
         }
       }
     }
 
+    const enableManageNavTreeMode = ()=> {
+      console.log('Enable manange mode');
+      store.dispatch('generateNavTree', { manageMode: true });
+    }
+
+    const disableManageNavTreeMode = ()=> {
+      console.log('Disable manange mode');
+      store.dispatch('generateNavTree', { manageMode: false});
+    }
+
     return {
       finalHtml,
-      onNodeClicked
+      onNodeClicked,
+      enableManageNavTreeMode,
+      disableManageNavTreeMode
     }
   }
 }
@@ -86,12 +120,18 @@ export default {
 // 这里的css不能使用scoped局部样式, 因为我们要应用到raw html上
 <style lang="scss">
 .nav {
-  font-size: .1rem;
-  line-height: .15rem;
-  margin-left: .1rem;
+  font-size: .16rem;
+  line-height: .26rem;
+  margin-left: .2rem;
 }
 .nav-selected {
   background: #00a8e6 !important;
   color: #fff !important;
+}
+.manage_button {
+  margin: .01rem 0 .01rem .05rem;
+  border-radius: .04rem;
+  font-size: .16rem;
+  text-align: center;
 }
 </style>
