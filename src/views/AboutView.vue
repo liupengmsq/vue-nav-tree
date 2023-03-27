@@ -3,23 +3,62 @@
     <div>
       <input type="button" value="管理" @click="enableManageNavTreeMode">
       <input type="button" value="返回" @click="disableManageNavTreeMode">
+      <input type="button" value="显示对话框" @click="handleShowDialog('123')">
     </div>
     <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
   </div>
+  <div v-if="showConfirmDialog" class="mask">
+    <div class="mask__content">
+        <div class="mask__content__title">确认删除节点</div>
+        <p class="mask__content__desc">节点 {{ nodeId }}将被永久删除！！</p>
+        <div class="mask__content__btns">
+            <div class="mask__content__btns__btn mask__content__btns__btn--first" @click="handleDismissDialog">取消</div>
+            <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleConfirm">确认</div>
+        </div>
+    </div>
+  </div>
+  <Toast v-if="show" :message="toastMessage" />
 </template>
 
 <script>
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import { computed, onMounted } from 'vue';
+// import { useRouter } from 'vue-router';
+import { computed, onMounted, ref } from 'vue';
 import * as nav_util from '../utils/nav';
+import ToastComponent, { useToastEffect } from '../components/ToastComponent.vue'
+
+// 控制是否显示确认对话框
+const useConfirmDialogEffect = () => {
+    const showConfirmDialog = ref(false);
+    const nodeId = ref('');
+
+    const handleShowDialog = (selectNodeId) => {
+      nodeId.value = selectNodeId;
+      showConfirmDialog.value = true;
+    }
+    const handleDismissDialog = () => {
+      showConfirmDialog.value = false;
+    }
+
+    return {
+      nodeId,
+      showConfirmDialog,
+      handleShowDialog,
+      handleDismissDialog
+    }
+}
 
 export default {
   name: 'AboutView',
+  components: {
+    Toast: ToastComponent
+  },
 
   setup () {
     const store = useStore();
-    const router = useRouter();
+    // const router = useRouter();
+    const { show, toastMessage, showToast } = useToastEffect();
+    const { nodeId, showConfirmDialog, handleShowDialog, handleDismissDialog } = useConfirmDialogEffect();
 
     const finalHtml = computed(() => store.getters.getFinalRawHTML );
 
@@ -90,28 +129,43 @@ export default {
           console.log("编辑当前节点", e.target.value);
         }
         if (e.target.value === "删除") {
-          console.log("删除当前节点", e.target.value);
-          nav_util.deleteNavTreeNode(e.target.id);
-          router.go();
+          handleShowDialog(e.target.id);
+          showToast("节点成功删除");
+          // if(confirm("删除节点" + e.target.id + "?")) {
+          //   nav_util.deleteNavTreeNode(e.target.id).then((i)=> {
+          //     console.log("节点成功删除", i);
+          //     showToast("节点成功删除");
+          //     // 刷新当前页面
+          //     router.go(router.currentRoute);
+          //   });
+          // }
         }
       }
     }
 
     const enableManageNavTreeMode = ()=> {
       console.log('Enable manange mode');
-      store.dispatch('generateNavTree', { manageMode: true });
+      nav_util.enableManageMode();
+      store.dispatch('generateNavTree');
     }
 
     const disableManageNavTreeMode = ()=> {
       console.log('Disable manange mode');
-      store.dispatch('generateNavTree', { manageMode: false});
+      nav_util.disableManageMode();
+      store.dispatch('generateNavTree');
     }
 
     return {
       finalHtml,
       onNodeClicked,
       enableManageNavTreeMode,
-      disableManageNavTreeMode
+      disableManageNavTreeMode,
+      show,
+      toastMessage,
+      nodeId,
+      showConfirmDialog,
+      handleShowDialog,
+      handleDismissDialog
     }
   }
 }
@@ -133,5 +187,61 @@ export default {
   border-radius: .04rem;
   font-size: .16rem;
   text-align: center;
+}
+
+.mask {
+    // 设置整个对话框外的蒙层效果
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.50);
+    &__content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 3rem;
+        height: 1.56rem;
+        background: #FFF;
+        border-radius: .04rem;;
+        &__title {
+            margin: .24rem 0 0 0;
+            line-height: .26rem;
+            font-size: .18rem;;
+            color: #333;
+            text-align: center;
+        }
+        &__desc {
+            margin: .08rem 0 0 0;
+            font-size: .14rem;;
+            color: #666;
+            text-align: center;
+        }
+        &__btns {
+            display: flex;
+            margin: .24rem .58rem;
+            &__btn {
+                cursor: pointer;
+                flex: 1;
+                width: .8rem;
+                line-height: .32rem;
+                border-radius: .16rem;
+                text-align: center;
+                &--first {
+                    margin-right: .12rem;
+                    border: .01rem solid #4FB0F9;
+                    color: #4FB0F9;
+                }
+                &--last {
+                    margin-left: .12rem;
+                    background-color: #4FB0F9;
+                    color: #FFF;
+                }
+            }
+        }
+    }
 }
 </style>

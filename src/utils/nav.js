@@ -22,20 +22,30 @@ export const getNavTree = async (manageMode=false) => {
     ...
   }
   */
+
   let nodeStatusList = {};
   if (localStorage.nodeStatusList) {
+    // 存在缓存的nodeStatus，读取出来
+    nodeStatusList = JSON.parse(localStorage.nodeStatusList);
+    if (Object.keys(nodeStatusList).length != result.length) {
+      // 如果服务端有节点更改，重新产生一份默认状态的nodeStatus，写入缓存
+      console.warn('节点在服务端有新的更改, 需要刷新localStorage!!');
+      nodeStatusList = initNodeStatusList(result)
+      localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
+    }
+  } else {
+    // 不存在缓存的nodeStatus，初始化一份写入缓存
+      nodeStatusList = initNodeStatusList(result)
+      localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
+  }
+
+  if (!localStorage.nodeStatusList || Object.keys(nodeStatusList).length != result.length) {
+      console.warn('节点在服务端有新的更改, 需要刷新localStorage!!');
+      nodeStatusList = initNodeStatusList(result)
+      localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
+  } else {
     //如果存在，将local storage中的信息读入nodeStatusList中
     nodeStatusList = JSON.parse(localStorage.nodeStatusList);
-  } else { 
-    //如果不存在，初始化每个节点状态到local storage中保存
-    for (const node of result) {
-      nodeStatusList[node.id] = {
-        expanded: node.root,
-        shown: node.depth <= 1,
-        selected: false
-      }
-    }
-    localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
   }
 
   // 使用后端API的节点信息与localStorage中存放的节点信息构造出Node对象
@@ -110,7 +120,7 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
   if (this.selected) {
     this.content +=  `class="nav-selected"`;
   }
-  this.content += ` >` + content + `</a>`;
+  this.content += ` >` + this.id + content + `</a>`;
 
   // 判断当前节点是否为叶子节点
   this.isLeaf = function() {
@@ -132,7 +142,7 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
       startTag += 'block';
     }
     // 每个div都相对于其父节点的div向右边移动.05rem，显示出导航栏的层次结构
-    startTag += `; margin-left:.05rem;">`;
+    startTag += `; margin-left:.1rem;">`;
 
     // 默认情况下，根节点是展开的，非叶子节点是折叠的，而叶子节点是没有展开折叠图标的。
     if(this.isRoot) {
@@ -230,6 +240,26 @@ export const select_nav_tree_node = (nodeId) => {
 }
 
 export const deleteNavTreeNode = async (nodeId) => {
-    const result = await deleteAPI(`/api/nav/tree/${nodeId}`);
-    console.log('Delete from /api/nav', result);
+    const result =  await deleteAPI(`/api/nav/tree/${nodeId}`);
+    return result;
+}
+
+const initNodeStatusList = (dataFromAPI) => {
+  let nodeStatusList = {};
+  for (const node of dataFromAPI) {
+    nodeStatusList[node.id] = {
+      expanded: node.root,
+      shown: node.depth <= 1,
+      selected: false
+    }
+  }
+  return nodeStatusList;
+}
+
+export const enableManageMode = () => {
+  localStorage.manageMode = true;
+}
+
+export const disableManageMode = () => {
+  localStorage.manageMode = false;
 }

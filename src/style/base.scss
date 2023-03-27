@@ -3,11 +3,18 @@ html {
 }
 body {
     font-size: .12rem; // 相当于配置了body里的字体默认是100px * 0.12 = 12px
-    font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+    font: 400 .16rem/.26rem "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
 }
 a {
     color: #444;
     text-decoration: none;
+}
+a:hover {
+    background: rgba(0, 0, 0, 0.03);
+    color: #444;
+    outline: none;
 }
 i { 
     font-style:normal

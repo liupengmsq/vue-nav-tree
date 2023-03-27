@@ -19,6 +19,7 @@ export default createStore({
     // 递归调用此方法，打印以当前state.currentNode为根节点的树
     generateHTMLTree(state, payload) {
       const { manageMode } = payload;
+      console.log("manageMode: ", manageMode);
       if (manageMode) {
         console.log('In manage mode!!!!');
       }
@@ -46,8 +47,15 @@ export default createStore({
   },
   actions: {
     // 生成新的节点树（从后端API读取树的信息，然后在前端构造出一棵树）
-    async generateNavTree({ commit, state }, payload) {
-      const { manageMode } = payload;
+    async generateNavTree({ commit, state }) {
+      let manageMode = false;
+      if (localStorage.manageMode) {
+        manageMode = JSON.parse(localStorage.manageMode);
+      } else {
+        localStorage.manageMode = false;
+      }
+      console.warn("当前的管理模式为：", manageMode);
+
       const root = await getNavTree(manageMode);
       console.log('root from getNavTree()', root);
 
@@ -59,7 +67,7 @@ export default createStore({
       state.finalRawHtml = '';
 
       console.log('state.rootNode', state.rootNode);
-      commit('generateHTMLTree', payload);
+      commit('generateHTMLTree', { manageMode });
     },
   },
   modules: {
