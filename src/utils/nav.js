@@ -113,9 +113,9 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
   // 节点附带的内容信息，这里使用超链接。用户点击此节点后，右侧应该显示对应的内容
   this.content = `<a id="${this.id}" href="http://localhost:8080/about" `;
   if (this.manageMode) {
-    this.content += `style="display:inlin-block" `;
+    this.content += `style="display:inlin-block;" `;
   } else {
-    this.content += `style="display:block" `;
+    this.content += `style="display:block;" `;
   }
   if (this.selected) {
     this.content +=  `class="nav-selected"`;
