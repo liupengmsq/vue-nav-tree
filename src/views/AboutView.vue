@@ -7,24 +7,27 @@
     <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
   </div>
 
-  <ConfirmDialog v-if="showConfirmDialog" 
-    confirmDialogTitle="确认删除节点" 
-    confirmDialogDesc="节点将被永久删除" 
-    :confirmDialogInputValue="inputValueForConfirmDialog" 
-    :handleConfirm="handleConfirm" 
-    :handleDismissConfirm="handleDismissConfirm"
-  />
+  <transition name="fade">
+    <ConfirmDialog v-if="showConfirmDialog" 
+      confirmDialogTitle="确认删除节点" 
+      :confirmDialogDesc="confirmDeleteNodeDesc" 
+      :confirmDialogInputValue="inputValueForConfirmDialog" 
+      :handleConfirm="handleConfirm" 
+      :handleDismissConfirm="handleDismissConfirm"
+    />
+  </transition>
 
-  <div v-if="showMessageDialog" class="mask">
-    <div class="mask__content">
-        <div class="mask__content__title">完成节点删除</div>
-        <p class="mask__content__desc">节点{{ nodeIdForMessage }}成功被删除</p>
-        <div class="mask__content__btns">
-            <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleDismissMessageDialog">确认</div>
-        </div>
+  <transition name="fade">
+    <div v-if="showMessageDialog" class="mask">
+      <div class="mask__content">
+          <div class="mask__content__title">完成节点删除</div>
+          <p class="mask__content__desc">节点{{ nodeIdForMessage }}成功被删除</p>
+          <div class="mask__content__btns">
+              <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleDismissMessageDialog">确认</div>
+          </div>
+      </div>
     </div>
-  </div>
-  <Toast v-if="show" :message="toastMessage" />
+  </transition>
 </template>
 
 <script>
@@ -32,7 +35,6 @@ import { useStore } from 'vuex';
 import router from "@/router/index.js";
 import { computed, onMounted, ref } from 'vue';
 import * as nav_util from '../utils/nav';
-import ToastComponent, { useToastEffect } from '../components/ToastComponent.vue'
 import ConfirmDialogComponent, { useConfirmDialogEffect } from '../components/ConfirmDialogComponent.vue'
 
 
@@ -62,13 +64,14 @@ const useMessageDialogEffect = () => {
 export default {
   name: 'AboutView',
   components: {
-    Toast: ToastComponent,
     ConfirmDialog: ConfirmDialogComponent
   },
 
   setup () {
     const store = useStore();
-    const { show, toastMessage } = useToastEffect();
+
+    const confirmDeleteNodeDesc = ref('');
+
     let { inputValueForConfirmDialog, showConfirmDialog, handleShowDialog, handleDismissConfirmDialog } = useConfirmDialogEffect();
     const { nodeIdForMessage, showMessageDialog, handleShowMessageDialog, handleDismissMessageDialog } = useMessageDialogEffect();
 
@@ -141,16 +144,25 @@ export default {
           console.log("编辑当前节点", e.target.value);
         }
         if (e.target.value === "删除") {
+          confirmDeleteNodeDesc.value = "节点 " + e.target.id + " 将被删除！！";
           handleShowDialog(e.target.id);
         }
       }
     }
 
     const handleConfirm = (nodeIdToBeDeleted) => {
-      nav_util.deleteNavTreeNode(nodeIdToBeDeleted).then((i)=> {
-        console.log("节点成功删除", i);
-        handleDismissConfirm();
-        handleShowMessageDialog(nodeIdToBeDeleted);
+      nav_util.deleteNavTreeNode(nodeIdToBeDeleted).then((response)=> {
+        if (response.Success) {
+          console.log("节点成功删除", response);
+          handleDismissConfirm();
+          handleShowMessageDialog(nodeIdToBeDeleted);
+        } else {
+          console.error("节点删除失败", response.Errors);
+          alert("节点删除失败: " + response.Errors);
+        }
+      }).catch((error) => {
+        console.error("节点删除失败", error.Errors);
+        alert("节点删除失败: " + error.Errors);
       });
     }
 
@@ -177,9 +189,7 @@ export default {
       enableManageNavTreeMode,
       disableManageNavTreeMode,
 
-      show,
-      toastMessage,
-
+      confirmDeleteNodeDesc,
       inputValueForConfirmDialog,
       showConfirmDialog,
       handleShowDialog,
@@ -268,4 +278,5 @@ export default {
         }
     }
 }
+
 </style>

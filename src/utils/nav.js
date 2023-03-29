@@ -3,8 +3,11 @@ import { get, deleteAPI } from '../utils/request';
 // 从后端API与localStorage构造出节点的树结构，并返回根节点
 export const getNavTree = async (manageMode=false) => {
   // 从后端API "GET /api/nav" 获取导航栏信息
-  const result = await get(`/api/nav/tree`);
-  console.log('Get from /api/nav', result);
+  const response = await get(`/api/nav/tree`);
+  console.log('Get from /api/nav', response);
+  if (!response.Success) {
+    console.error("Error when calling API '/api/nav/tree'!!", response.Errors);
+  }
 
   // 从localStorage获取节点展开状态、选中与显示状态的信息
   /*  nodeStatusList的结构如下所示：
@@ -27,21 +30,21 @@ export const getNavTree = async (manageMode=false) => {
   if (localStorage.nodeStatusList) {
     // 存在缓存的nodeStatus，读取出来
     nodeStatusList = JSON.parse(localStorage.nodeStatusList);
-    if (Object.keys(nodeStatusList).length != result.length) {
+    if (Object.keys(nodeStatusList).length != response.Result.length) {
       // 如果服务端有节点更改，重新产生一份默认状态的nodeStatus，写入缓存
       console.warn('节点在服务端有新的更改, 需要刷新localStorage!!');
-      nodeStatusList = initNodeStatusList(result)
+      nodeStatusList = initNodeStatusList(response.Result)
       localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
     }
   } else {
     // 不存在缓存的nodeStatus，初始化一份写入缓存
-      nodeStatusList = initNodeStatusList(result)
+      nodeStatusList = initNodeStatusList(response.Result)
       localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
   }
 
-  if (!localStorage.nodeStatusList || Object.keys(nodeStatusList).length != result.length) {
+  if (!localStorage.nodeStatusList || Object.keys(nodeStatusList).length != response.Result.length) {
       console.warn('节点在服务端有新的更改, 需要刷新localStorage!!');
-      nodeStatusList = initNodeStatusList(result)
+      nodeStatusList = initNodeStatusList(response.Result)
       localStorage.nodeStatusList = JSON.stringify(nodeStatusList);
   } else {
     //如果存在，将local storage中的信息读入nodeStatusList中
@@ -50,7 +53,7 @@ export const getNavTree = async (manageMode=false) => {
 
   // 使用后端API的节点信息与localStorage中存放的节点信息构造出Node对象
   const nodeList = {};
-  for(const node of result) {
+  for(const node of response.Result) {
     nodeList[node.id] = new Node(node.id, 
       node.depth, 
       node.content, 
@@ -64,7 +67,7 @@ export const getNavTree = async (manageMode=false) => {
 
   // 构造出Node对象代表的节点彼此的父子关系，并将根节点返回
   var root = null;
-  for(const node of result) {
+  for(const node of response.Result) {
     if (!node.root) {
       if(nodeList[node.parentId]) {
         nodeList[node.parentId].addChildNode(nodeList[node.id])
@@ -240,8 +243,8 @@ export const select_nav_tree_node = (nodeId) => {
 }
 
 export const deleteNavTreeNode = async (nodeId) => {
-    const result =  await deleteAPI(`/api/nav/tree/${nodeId}`);
-    return result;
+    const response =  await deleteAPI(`/api/nav/tree/${nodeId}`);
+    return response;
 }
 
 const initNodeStatusList = (dataFromAPI) => {

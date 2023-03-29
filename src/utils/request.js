@@ -42,8 +42,8 @@ export const deleteAPI = (url, data = {}) => {
         }).then((response) => {
             resolve(response.data);
         }, err => {
-            console.log('error in post', err);
-            reject(err);
+            console.log('error in deleteAPI', err.response.data);
+            reject(err.response.data);
         })
     });
 }

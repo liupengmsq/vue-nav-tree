@@ -19,3 +19,12 @@ a:hover {
 i { 
     font-style:normal
 }
+
+// 对话框的淡入淡出
+.fade-enter-active, .fade-leave-active {
+  transition: all 0.2s;
+}
+// 对话框的淡入淡出
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}

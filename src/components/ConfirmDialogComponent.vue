@@ -4,8 +4,8 @@
             <div class="mask__content__title">{{ confirmDialogTitle }} </div>
             <p class="mask__content__desc"> {{ confirmDialogDesc  }} </p>
             <div class="mask__content__btns">
-                <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleConfirm(confirmDialogInputValue)">确认</div>
-                <div class="mask__content__btns__btn mask__content__btns__btn--first" @click="handleDismissConfirm">取消</div>
+                <div class="mask__content__btns__btn mask__content__btns__btn--first" @click="handleConfirm(confirmDialogInputValue)">确认</div>
+                <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleDismissConfirm">取消</div>
             </div>
         </div>
     </div>
@@ -95,13 +95,14 @@ export const useConfirmDialogEffect = () => {
                 text-align: center;
                 &--first {
                     margin-right: .12rem;
-                    border: .01rem solid #4FB0F9;
-                    color: #4FB0F9;
+                    background-color: #4FB0F9;
+                    color: #FFF;
                 }
                 &--last {
                     margin-left: .12rem;
-                    background-color: #4FB0F9;
-                    color: #FFF;
+                    border: .01rem solid #4FB0F9;
+                    background-color: #FFF;
+                    color: #4FB0F9;
                 }
             }
         }
