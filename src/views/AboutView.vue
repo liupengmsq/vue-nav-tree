@@ -1,10 +1,18 @@
 <template>
-  <div>
+  <div class="wrapper">
     <div>
       <input type="button" value="管理" @click="enableManageNavTreeMode">
       <input type="button" value="返回" @click="disableManageNavTreeMode">
     </div>
-    <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
+    <div class="main">
+      <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
+      <div id="content" class="content">
+        <h1>这里是标题</h1>
+        <p>
+          这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，
+        </p>
+      </div>
+    </div>
   </div>
 
   <transition name="fade">
@@ -18,16 +26,26 @@
   </transition>
 
   <transition name="fade">
+    <MessageDialog v-if="showMessageDialog" 
+      :messageDialogTitle="messageDialogTitle"
+      :messageDialogDesc="messageDialogDesc"
+      :messageDialogSucess="messageDialogSucess"
+      :handleDismissMessage="handleDismissMessage"
+    />
+  </transition>
+
+  <!-- <transition name="fade">
     <div v-if="showMessageDialog" class="mask">
       <div class="mask__content">
-          <div class="mask__content__title">完成节点删除</div>
-          <p class="mask__content__desc">节点{{ nodeIdForMessage }}成功被删除</p>
-          <div class="mask__content__btns">
-              <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleDismissMessageDialog">确认</div>
-          </div>
+        <div class="iconfont mask__content__icon--fail">&#xe63f;</div>
+        <div class="mask__content__title">完成节点删除</div>
+        <p class="mask__content__desc">节点{{ nodeIdForMessage }}成功被删除</p>
+        <div class="mask__content__btns">
+            <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="handleDismissMessageDialog">确认</div>
+        </div>
       </div>
     </div>
-  </transition>
+  </transition> -->
 </template>
 
 <script>
@@ -36,44 +54,28 @@ import router from "@/router/index.js";
 import { computed, onMounted, ref } from 'vue';
 import * as nav_util from '../utils/nav';
 import ConfirmDialogComponent, { useConfirmDialogEffect } from '../components/ConfirmDialogComponent.vue'
-
-
-// 控制是否显示确认对话框
-const useMessageDialogEffect = () => {
-    const showMessageDialog = ref(false);
-    const nodeIdForMessage = ref('');
-
-    const handleShowMessageDialog = (selectNodeId) => {
-      nodeIdForMessage.value = selectNodeId;
-      showMessageDialog.value = true;
-    }
-
-    const handleDismissMessageDialog = () => {
-      showMessageDialog.value = false;
-      router.go(router.currentRoute);
-    }
-
-    return {
-      nodeIdForMessage,
-      showMessageDialog,
-      handleShowMessageDialog,
-      handleDismissMessageDialog
-    }
-}
+import MessageDialogComponent, { useMessageDialogEffect } from '../components/MessageDialogComponent.vue'
 
 export default {
   name: 'AboutView',
   components: {
-    ConfirmDialog: ConfirmDialogComponent
+    ConfirmDialog: ConfirmDialogComponent,
+    MessageDialog: MessageDialogComponent
   },
 
   setup () {
     const store = useStore();
 
+    // 删除节点的确认对话框
     const confirmDeleteNodeDesc = ref('');
+    const { inputValueForConfirmDialog, showConfirmDialog, handleShowDialog, handleDismissConfirmDialog } = useConfirmDialogEffect();
 
-    let { inputValueForConfirmDialog, showConfirmDialog, handleShowDialog, handleDismissConfirmDialog } = useConfirmDialogEffect();
-    const { nodeIdForMessage, showMessageDialog, handleShowMessageDialog, handleDismissMessageDialog } = useMessageDialogEffect();
+    // 删除节点后显示结果的消息框
+    const messageDialogTitle = ref('');
+    const messageDialogDesc = ref('');
+    const messageDialogSucess = ref(true);
+    const { showMessageDialog, handleShowMessageDialog, handleDismissMessageDialog } = useMessageDialogEffect();
+
 
     const finalHtml = computed(() => store.getters.getFinalRawHTML );
 
@@ -155,20 +157,36 @@ export default {
         if (response.Success) {
           console.log("节点成功删除", response);
           handleDismissConfirm();
-          handleShowMessageDialog(nodeIdToBeDeleted);
+
+          messageDialogTitle.value = "完成节点删除";
+          messageDialogDesc.value = `节点 ${nodeIdToBeDeleted} 被成功删除`;
+          messageDialogSucess.value = true;
+          handleShowMessageDialog();
         } else {
-          console.error("节点删除失败", response.Errors);
-          alert("节点删除失败: " + response.Errors);
+          handleDismissConfirm();
+          messageDialogTitle.value = "节点删除失败";
+          messageDialogDesc.value = response.Errors;
+          messageDialogSucess.value = false;
+          handleShowMessageDialog();
         }
       }).catch((error) => {
-        console.error("节点删除失败", error.Errors);
-        alert("节点删除失败: " + error.Errors);
+        handleDismissConfirm();
+        messageDialogTitle.value = "节点删除失败";
+        messageDialogDesc.value = error.Errors[0];
+        messageDialogSucess.value = false;
+        handleShowMessageDialog();
       });
     }
 
     const handleDismissConfirm = () => {
       console.log('handleDismissConfirm');
       handleDismissConfirmDialog();
+    }
+
+    const handleDismissMessage = () => {
+      console.log('handleDismissMessage');
+      handleDismissMessageDialog();
+      router.go(router.currentRoute);
     }
 
     const enableManageNavTreeMode = ()=> {
@@ -184,11 +202,17 @@ export default {
     }
 
     return {
+      // 节点树的html
       finalHtml,
+
+      // 点击节点树中任何元素的事件响应函数
       onNodeClicked,
+
+      // 启动与关闭节点管理
       enableManageNavTreeMode,
       disableManageNavTreeMode,
 
+      // 删除节点的确认对话框
       confirmDeleteNodeDesc,
       inputValueForConfirmDialog,
       showConfirmDialog,
@@ -196,21 +220,45 @@ export default {
       handleConfirm,
       handleDismissConfirm,
 
-      nodeIdForMessage,
+      // 删除节点后的结果消息框
+      messageDialogSucess,
+      messageDialogTitle,
+      messageDialogDesc,
       showMessageDialog,
       handleShowMessageDialog,
-      handleDismissMessageDialog
+      handleDismissMessage,
     }
   }
 }
 </script>
-
 // 这里的css不能使用scoped局部样式, 因为我们要应用到raw html上
 <style lang="scss">
+// .icon_font_color {
+//   color: #00a8e6;
+// }
+.wrapper {
+  // 背景图片
+  background-color: #2d76c8;
+  background-image: url('~@/assets/shadow_light.png'), url('~@/assets/pixels.png');
+  background-position: 0 0, 0 0;
+  background-repeat: repeat;
+}
+.main {
+  display: flex;
+  max-width: 1760px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: .5rem;
+}
 .nav {
   font-size: .16rem;
   line-height: .26rem;
-  margin-left: .2rem;
+  padding: 0 .2rem 0 .2rem;
+  background-color: #FFF;
+  border-right: 1px solid #dddddd;
+  width: 316px;
+  box-sizing: border-box;
 }
 .nav-selected {
   background: #00a8e6 !important;
@@ -223,60 +271,10 @@ export default {
   text-align: center;
 }
 
-.mask {
-    // 设置整个对话框外的蒙层效果
-    z-index: 1;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.50);
-    &__content {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 3rem;
-        height: 1.56rem;
-        background: #FFF;
-        border-radius: .04rem;;
-        &__title {
-            margin: .24rem 0 0 0;
-            line-height: .26rem;
-            font-size: .18rem;;
-            color: #333;
-            text-align: center;
-        }
-        &__desc {
-            margin: .08rem 0 0 0;
-            font-size: .14rem;;
-            color: #666;
-            text-align: center;
-        }
-        &__btns {
-            display: flex;
-            margin: .24rem .58rem;
-            &__btn {
-                cursor: pointer;
-                flex: 1;
-                width: .8rem;
-                line-height: .32rem;
-                border-radius: .16rem;
-                text-align: center;
-                &--first {
-                    margin-right: .12rem;
-                    border: .01rem solid #4FB0F9;
-                    color: #4FB0F9;
-                }
-                &--last {
-                    margin-left: .12rem;
-                    background-color: #4FB0F9;
-                    color: #FFF;
-                }
-            }
-        }
-    }
+.content {
+  flex: 1;
+  background-color: #FFF;
+  padding-left: .05rem;
 }
 
 </style>
