@@ -55,19 +55,19 @@ export const useMessageDialogEffect = () => {
 .mask {
     // 设置整个对话框外的蒙层效果
     z-index: 1;
-    position: absolute;
-    left: 0;
-    right: 0;
+    position: fixed;
     top: 0;
-    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
     background: rgba(0,0,0,0.50);
     &__content {
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -200%);
         width: 3rem;
-        // height: 1.56rem;
         background: #FFF;
         border-radius: .04rem;;
         &__icon {
@@ -100,7 +100,7 @@ export const useMessageDialogEffect = () => {
             font-size: .14rem;;
             color: #666;
             text-align: center;
-            word-break: break-all;
+            word-break: normal;
             white-space: normal;
         }
         &__btns {
