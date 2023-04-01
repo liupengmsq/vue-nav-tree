@@ -2,8 +2,8 @@
   <div class="wrapper">
     <div class="main">
       <div class="nav_container">
-        <input type="button" value="管理" @click="enableManageNavTreeMode">
-        <input type="button" value="返回" @click="disableManageNavTreeMode">
+        <input type="button" value="管理" @click="onClickManageNavTreeButton">
+        <input type="button" value="返回" @click="onClickDisableManageNavTreeButton">
         <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
       </div>
       <div id="content" class="content">
@@ -19,95 +19,115 @@
       confirmDialogTitle="确认删除节点" 
       :confirmDialogDesc="confirmDeleteNodeDesc" 
       :confirmDialogInputValue="inputValueForConfirmDialog" 
-      :handleConfirm="onClickConfirmButtonInConfirmDialog" 
-      :handleDismissConfirm="onClickDismissButtonInConfirmDialog"
+      :onClickConfirmButtonInConfirmDialog="onClickConfirmButtonInConfirmDialog" 
+      :onClickDismissButtonInConfirmDialog="onClickDismissButtonInConfirmDialog"
     />
   </transition>
 
   <transition name="fade">
     <MessageDialog v-if="showMessageDialog" 
-      :messageDialogTitle="messageDialogTitle"
-      :messageDialogDesc="messageDialogDesc"
-      :messageDialogSucess="messageDialogSucess"
-      :handleDismissMessage="onClickDismissButtonInMessageDialog"
+      :messageDialogTitle="messageDialogInfo.title"
+      :messageDialogDesc="messageDialogInfo.description"
+      :messageDialogSucess="messageDialogInfo.success"
+      :onClickOKButtonInMessageDialog="dismissMessageDialog"
     />
   </transition>
+
+  <NavNodeCreationDialog v-if="true" />
 </template>
 
 <script>
 import { useStore } from 'vuex';
 import router from "@/router/index.js";
 import { computed, onMounted, ref } from 'vue';
-import * as nav_util from '../utils/nav';
-import ConfirmDialogComponent, { useConfirmDialogEffect } from '../components/ConfirmDialogComponent.vue'
-import MessageDialogComponent, { useMessageDialogEffect } from '../components/MessageDialogComponent.vue'
-
-const onClickLinkOnNavNode = (e) => {
-  // 取消掉所有选中的node节点
-  console.log('Clear selected item in nav list');
-  const linkElements = document.getElementById('nav').getElementsByTagName('A');
-  for (const link of linkElements) {
-    if (link.classList.contains('nav-selected')) {
-      link.classList.remove('nav-selected');
-    }
-  }
-
-  // 将选中的节点标记为高亮
-  console.log('Mark selected item in nav list');
-  e.target.classList.add('nav-selected');
-
-  // 状态保存到localStorage中
-  nav_util.select_nav_tree_node(e.target.id);
-}
-
-const onClickExpandIconOnNavNode = (e) => {
-  const currentNode = e.target.parentElement;
-  
-  // 轮询被点击节点的儿子节点，将其显示或隐藏
-  for (const child of currentNode.children) {
-    if(child.tagName === 'DIV') {
-      if (child.style.display === "none") {
-        child.style.display = "block";
-        nav_util.show_nav_tree_node(child.id);
-      } else {
-        child.style.display = "none";
-        nav_util.unshow_nav_tree_node(child.id);
-      }
-    }
-  }
-
-  // 将选中的节点的展开或者折叠的图标更换
-  if (e.target.classList.contains('icon-expanded')) {
-    e.target.classList.remove('icon-expanded');
-    e.target.classList.add('icon-collapsed');
-    nav_util.collapse_nav_tree_node(e.target.id);
-
-  } else if (e.target.classList.contains('icon-collapsed')) {
-    e.target.classList.remove('icon-collapsed');
-    e.target.classList.add('icon-expanded');
-    nav_util.expand_nav_tree_node(e.target.id);
-  }
-}
+import * as nav_util from '../../utils/nav';
+import ConfirmDialogComponent, { useConfirmDialogEffect } from '../../components/ConfirmDialogComponent.vue'
+import MessageDialogComponent, { useMessageDialogEffect } from '../../components/MessageDialogComponent.vue'
+import NavNodeCreationDialog from './NavNodeCreationDialog.vue'
 
 export default {
   name: 'AboutView',
   components: {
     ConfirmDialog: ConfirmDialogComponent,
-    MessageDialog: MessageDialogComponent
+    MessageDialog: MessageDialogComponent,
+    NavNodeCreationDialog: NavNodeCreationDialog
   },
 
   setup () {
     const store = useStore();
 
+    const onClickLinkOnNavNode = (e) => {
+      // 取消掉所有选中的node节点
+      console.log('Clear selected item in nav list');
+      const linkElements = document.getElementById('nav').getElementsByTagName('A');
+      for (const link of linkElements) {
+        if (link.classList.contains('nav-selected')) {
+          link.classList.remove('nav-selected');
+        }
+      }
+
+      // 将选中的节点标记为高亮
+      console.log('Mark selected item in nav list');
+      e.target.classList.add('nav-selected');
+
+      // 状态保存到localStorage中
+      nav_util.select_nav_tree_node(e.target.id);
+    }
+
+    const onClickExpandIconOnNavNode = (e) => {
+      const currentNode = e.target.parentElement;
+      
+      // 轮询被点击节点的儿子节点，将其显示或隐藏
+      for (const child of currentNode.children) {
+        if(child.tagName === 'DIV') {
+          if (child.style.display === "none") {
+            child.style.display = "block";
+            nav_util.show_nav_tree_node(child.id);
+          } else {
+            child.style.display = "none";
+            nav_util.unshow_nav_tree_node(child.id);
+          }
+        }
+      }
+
+      // 将选中的节点的展开或者折叠的图标更换
+      if (e.target.classList.contains('icon-expanded')) {
+        e.target.classList.remove('icon-expanded');
+        e.target.classList.add('icon-collapsed');
+        nav_util.collapse_nav_tree_node(e.target.id);
+
+      } else if (e.target.classList.contains('icon-collapsed')) {
+        e.target.classList.remove('icon-collapsed');
+        e.target.classList.add('icon-expanded');
+        nav_util.expand_nav_tree_node(e.target.id);
+      }
+    }
+
     // 删除节点的确认对话框
     const confirmDeleteNodeDesc = ref('');
-    const { inputValueForConfirmDialog, showConfirmDialog, handleShowDialog, handleDismissConfirmDialog } = useConfirmDialogEffect();
+    const { inputValueForConfirmDialog, showConfirmDialog, handleShowConfirmDialog, handleDismissConfirmDialog } = useConfirmDialogEffect();
 
     // 删除节点后显示结果的消息框
-    const messageDialogTitle = ref('');
-    const messageDialogDesc = ref('');
-    const messageDialogSucess = ref(true);
+    const messageDialogInfo = {
+      title: '',
+      description: '',
+      success: true
+    }
     const { showMessageDialog, handleShowMessageDialog, handleDismissMessageDialog } = useMessageDialogEffect();
+
+    const showDeleteNodeSuccessMessageDialog = (nodeIdToBeDeleted) => {
+        messageDialogInfo.title= "完成节点删除";
+        messageDialogInfo.description = `节点 ${nodeIdToBeDeleted} 被成功删除`;
+        messageDialogInfo.success = true;
+        handleShowMessageDialog();
+    }
+
+    const showDeleteNodeFailMessageDialog = (errorMessage) => {
+      messageDialogInfo.title = "节点删除失败";
+      messageDialogInfo.description = errorMessage;
+      messageDialogInfo.success = false;
+      handleShowMessageDialog();
+    }
 
     // 节点树的HTML
     const finalHtml = computed(() => store.getters.getFinalRawHTML );
@@ -127,6 +147,7 @@ export default {
       if(e.target.tagName === 'I') {
         onClickExpandIconOnNavNode(e);
       }
+      // 处理点击新建，编辑与删除的按钮
       if(e.target.tagName === 'INPUT') {
         console.log(e.target.id);
         if (e.target.value === "新建") {
@@ -137,56 +158,50 @@ export default {
         }
         if (e.target.value === "删除") {
           confirmDeleteNodeDesc.value = "节点 " + e.target.id + " 将被删除！！";
-          handleShowDialog(e.target.id);
+          handleShowConfirmDialog(e.target.id);
         }
       }
     }
 
+    // 点击确认删除节点按钮
     const onClickConfirmButtonInConfirmDialog = (nodeIdToBeDeleted) => {
+      // 调用后端删除节点API
       nav_util.deleteNavTreeNode(nodeIdToBeDeleted).then((response)=> {
         if (response.Success) {
-          console.log("节点成功删除", response);
+          // 删除成功
           onClickDismissButtonInConfirmDialog();
-
-          messageDialogTitle.value = "完成节点删除";
-          messageDialogDesc.value = `节点 ${nodeIdToBeDeleted} 被成功删除`;
-          messageDialogSucess.value = true;
-          handleShowMessageDialog();
-        } else {
+          showDeleteNodeSuccessMessageDialog(nodeIdToBeDeleted);
+        } else { 
+          //删除失败
           onClickDismissButtonInConfirmDialog();
-          messageDialogTitle.value = "节点删除失败";
-          messageDialogDesc.value = response.Errors;
-          messageDialogSucess.value = false;
-          handleShowMessageDialog();
+          showDeleteNodeFailMessageDialog(response.Errors);
         }
       }).catch((error) => {
+        //删除失败
         onClickDismissButtonInConfirmDialog();
-        messageDialogTitle.value = "节点删除失败";
-        messageDialogDesc.value = error.Errors[0];
-        messageDialogSucess.value = false;
-        handleShowMessageDialog();
+        showDeleteNodeFailMessageDialog(error.Errors[0]);
       });
     }
 
+    // 点击取消删除节点按钮
     const onClickDismissButtonInConfirmDialog = () => {
-      console.log('onClickDismissButtonInConfirmDialog');
       handleDismissConfirmDialog();
     }
 
-    const onClickDismissButtonInMessageDialog = () => {
-      console.log('onClickDismissButtonInMessageDialog');
+    // 点击消息框的确认按钮
+    const dismissMessageDialog = () => {
       handleDismissMessageDialog();
       router.go(router.currentRoute);
     }
 
-    const enableManageNavTreeMode = ()=> {
-      console.log('Enable manange mode');
+    // 点击管理按钮
+    const onClickManageNavTreeButton = ()=> {
       nav_util.enableManageMode();
       store.dispatch('generateNavTree');
     }
 
-    const disableManageNavTreeMode = ()=> {
-      console.log('Disable manange mode');
+    // 点击返回按钮
+    const onClickDisableManageNavTreeButton = ()=> {
       nav_util.disableManageMode();
       store.dispatch('generateNavTree');
     }
@@ -199,24 +214,22 @@ export default {
       onNodeClicked,
 
       // 启动与关闭节点管理
-      enableManageNavTreeMode,
-      disableManageNavTreeMode,
+      onClickManageNavTreeButton,
+      onClickDisableManageNavTreeButton,
 
       // 删除节点的确认对话框
       confirmDeleteNodeDesc,
       inputValueForConfirmDialog,
       showConfirmDialog,
-      handleShowDialog,
+      handleShowConfirmDialog,
       onClickConfirmButtonInConfirmDialog,
       onClickDismissButtonInConfirmDialog,
 
       // 删除节点后的结果消息框
-      messageDialogSucess,
-      messageDialogTitle,
-      messageDialogDesc,
+      messageDialogInfo,
       showMessageDialog,
       handleShowMessageDialog,
-      onClickDismissButtonInMessageDialog,
+      dismissMessageDialog,
     }
   }
 }
