@@ -1,4 +1,4 @@
-import { get, deleteAPI } from '../utils/request';
+import { get, deleteAPI, post } from '../utils/request';
 
 // 从后端API与localStorage构造出节点的树结构，并返回根节点
 export const getNavTree = async (manageMode=false) => {
@@ -240,6 +240,17 @@ export const select_nav_tree_node = (nodeId) => {
   } else {
     console.log('No node id in local storage:', nodeId);
   }
+}
+
+export const createNavTreeNode = async (parentNodeId, title, url, isRoot=false) => {
+  const response = await post('/api/nav/tree/', {
+    target: url,
+    content: title,
+    root: isRoot,
+    parentId: parentNodeId
+  });
+  console.log('response from post nav', response);
+  return response;
 }
 
 export const deleteNavTreeNode = async (nodeId) => {

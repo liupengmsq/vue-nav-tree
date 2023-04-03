@@ -1,56 +1,108 @@
 <template>
   <div class="mask">
     <div class="mask__content">
-      <div class="mask__content__title">新建节点</div>
+      <div class="mask__content__title"><b>新建节点</b></div>
       <div class="mask__content__container">
 
         <div class="mask__content__container__group">
-          <label>父节点ID：123</label>
+          <label><b>父节点ID：</b><span>{{ confirmDialogInputValue }}</span></label>
         </div>
 
         <div class="mask__content__container__group">
           <div>
-            <label>节点链接：</label>
+            <label><b>节点链接</b></label>
           </div>
           <div class="mask__content__container__input">
-            <input class="mask__content__container__input__content" type="text" placeholder="输入链接" name="target" required>
+            <input v-model="confirmDialogData.navNodeURL" class="mask__content__container__input__content" type="text" placeholder="输入链接" name="target" required>
           </div>
         </div>
 
         <div class="mask__content__container__group">
           <div>
-            <label>节点标题：</label>
+            <label><b>节点标题</b></label>
           </div>
           <div class="mask__content__container__input">
-            <input class="mask__content__container__input__content" type="text" placeholder="输入标题" name="title" required>
+            <input v-model="confirmDialogData.navNodeTitle" class="mask__content__container__input__content" type="text" placeholder="输入标题" name="title" required>
           </div>
         </div>
 
-        <div class="mask__content__container__group">
-          <label>创建根节点：</label> <input type="checkbox" name="isRoot">
+        <div class="mask__content__container__group"><label>
+          <input v-model="confirmDialogData.navNodeIsRoot" type="checkbox" name="isRoot"><b> 创建根节点</b></label> 
         </div>
 
       </div>
+
       <div class="mask__content__btns">
         <div class="mask__content__btns__btn mask__content__btns__btn--first"
-          @click="onClickConfirmButtonInConfirmDialog(confirmDialogInputValue)">确认</div>
-        <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="onClickDismissButtonInConfirmDialog">
-          取消</div>
+          @click="onClickCreateButtonInConfirmDialog(confirmDialogInputValue)">创建</div>
+        <div class="mask__content__btns__btn mask__content__btns__btn--last" @click="onClickDismissButtonInConfirmDialog">取消</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { reactive, toRefs } from 'vue';
+import * as nav_util from '../../utils/nav';
+
 export default {
   name: 'NavNodeCreationDialog',
   props: {
     confirmDialogInputValue: String,
-    onClickConfirmButtonInConfirmDialog: Function,
-    onClickDismissButtonInConfirmDialog: Function
+    onClickDismissButtonInConfirmDialog: Function,
   },
-  setup() {
+  emits: ['createNodeSuceeded', 'createNodeFailed'],
+  setup(props, { emit }) {
+    const confirmDialogData = reactive({
+      navNodeURL: '',
+      navNodeTitle: '',
+      navNodeIsRoot: false
+    });
 
+    const onClickCreateButtonInConfirmDialog = (parentId) => {
+      console.log(confirmDialogData);
+      console.log(parentId);
+      nav_util.createNavTreeNode(parentId, confirmDialogData.navNodeTitle, confirmDialogData.navNodeURL, confirmDialogData.navNodeIsRoot).then((response) => {
+        if (response.Success) {
+          emit('createNodeSuceeded', response.Result.id);
+        }
+      }).catch((error) => {
+        console.log('Errors when creating node', error.response.data.Errors[0]);
+        emit('createNodeFailed', error.response.data.Errors[0]);
+      });
+    }
+
+    return {
+      onClickCreateButtonInConfirmDialog,
+      confirmDialogData
+    }
+  }
+}
+export const useNavNodeCreationConfirmDialogEffect = () => {
+  const confirmDialogData = reactive({
+    showNavNodeCreationConfirmDialog: false,
+    parentNavNodeIdForNavNodeCreation: '',
+  });
+
+  // 显示对话框
+  const handleShowNavNodeCreationConfirmDialog = (parentId) => {
+    console.log("Parent node id", parentId);
+    confirmDialogData.parentNavNodeIdForNavNodeCreation = parentId;
+    confirmDialogData.showNavNodeCreationConfirmDialog = true;
+  }
+
+  // 隐藏对话框
+  const handleDismissNavNodeCreationConfirmDialog = () => {
+    confirmDialogData.showNavNodeCreationConfirmDialog = false;
+  }
+
+  const { showNavNodeCreationConfirmDialog, parentNavNodeIdForNavNodeCreation } = toRefs(confirmDialogData);
+
+  return {
+    parentNavNodeIdForNavNodeCreation,
+    showNavNodeCreationConfirmDialog,
+    handleShowNavNodeCreationConfirmDialog,
+    handleDismissNavNodeCreationConfirmDialog,
   }
 }
 </script>

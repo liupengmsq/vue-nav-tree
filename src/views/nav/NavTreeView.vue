@@ -33,7 +33,14 @@
     />
   </transition>
 
-  <NavNodeCreationDialog v-if="true" />
+  <transition name="fade">
+    <NavNodeCreationDialog v-if="showNavNodeCreationConfirmDialog"
+      :confirmDialogInputValue="parentNavNodeIdForNavNodeCreation"
+      :onClickDismissButtonInConfirmDialog="dismissNavNodeCreationDialog"
+      @createNodeSuceeded="onNavNodeCreationSucceeded"
+      @createNodeFailed="onNavNodeCreationFailed"
+    />
+  </transition>
 </template>
 
 <script>
@@ -43,7 +50,7 @@ import { computed, onMounted, ref } from 'vue';
 import * as nav_util from '../../utils/nav';
 import ConfirmDialogComponent, { useConfirmDialogEffect } from '../../components/ConfirmDialogComponent.vue'
 import MessageDialogComponent, { useMessageDialogEffect } from '../../components/MessageDialogComponent.vue'
-import NavNodeCreationDialog from './NavNodeCreationDialog.vue'
+import NavNodeCreationDialog, { useNavNodeCreationConfirmDialogEffect } from './NavNodeCreationDialog.vue'
 
 export default {
   name: 'AboutView',
@@ -115,6 +122,7 @@ export default {
     }
     const { showMessageDialog, handleShowMessageDialog, handleDismissMessageDialog } = useMessageDialogEffect();
 
+    // 显示删除节点成功对话框
     const showDeleteNodeSuccessMessageDialog = (nodeIdToBeDeleted) => {
         messageDialogInfo.title= "完成节点删除";
         messageDialogInfo.description = `节点 ${nodeIdToBeDeleted} 被成功删除`;
@@ -122,8 +130,25 @@ export default {
         handleShowMessageDialog();
     }
 
+    // 显示删除节点失败对话框
     const showDeleteNodeFailMessageDialog = (errorMessage) => {
       messageDialogInfo.title = "节点删除失败";
+      messageDialogInfo.description = errorMessage;
+      messageDialogInfo.success = false;
+      handleShowMessageDialog();
+    }
+
+    // 显示创建节点成功对话框
+    const showCreateNodeSuccessMessageDialog = (nodeId) => {
+        messageDialogInfo.title= "完成节点创建";
+        messageDialogInfo.description = `节点 ${nodeId} 被成功创建`;
+        messageDialogInfo.success = true;
+        handleShowMessageDialog();
+    }
+
+    // 显示创建节点失败对话框
+    const showCreateNodeFailMessageDialog = (errorMessage) => {
+      messageDialogInfo.title = "节点创建失败";
       messageDialogInfo.description = errorMessage;
       messageDialogInfo.success = false;
       handleShowMessageDialog();
@@ -152,6 +177,7 @@ export default {
         console.log(e.target.id);
         if (e.target.value === "新建") {
           console.log("新建子节点", e.target.value);
+          handleShowNavNodeCreationConfirmDialog(e.target.id);
         }
         if (e.target.value === "编辑") {
           console.log("编辑当前节点", e.target.value);
@@ -206,6 +232,24 @@ export default {
       store.dispatch('generateNavTree');
     }
 
+    // 新建节点
+    const { parentNavNodeIdForNavNodeCreation, showNavNodeCreationConfirmDialog, handleShowNavNodeCreationConfirmDialog, handleDismissNavNodeCreationConfirmDialog } =  useNavNodeCreationConfirmDialogEffect();
+
+    // 点击取消新建节点按钮
+    const dismissNavNodeCreationDialog = () => {
+      handleDismissNavNodeCreationConfirmDialog();
+    }
+
+    const onNavNodeCreationSucceeded = (newNodeId) => {
+      dismissNavNodeCreationDialog();
+      showCreateNodeSuccessMessageDialog(newNodeId);
+    }
+
+    const onNavNodeCreationFailed = (errorMessage) => {
+      dismissNavNodeCreationDialog();
+      showCreateNodeFailMessageDialog(errorMessage);
+    }
+
     return {
       // 节点树的html
       finalHtml,
@@ -230,6 +274,14 @@ export default {
       showMessageDialog,
       handleShowMessageDialog,
       dismissMessageDialog,
+
+      // 创建节点的对话框
+      parentNavNodeIdForNavNodeCreation,
+      showNavNodeCreationConfirmDialog,
+      handleShowNavNodeCreationConfirmDialog,
+      dismissNavNodeCreationDialog,
+      onNavNodeCreationSucceeded,
+      onNavNodeCreationFailed
     }
   }
 }
