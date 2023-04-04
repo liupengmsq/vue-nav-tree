@@ -4,6 +4,7 @@
       <div class="nav_container">
         <input type="button" value="管理" @click="onClickManageNavTreeButton">
         <input type="button" value="返回" @click="onClickDisableManageNavTreeButton">
+        <input type="button" value="新建根节点" @click="onClickCreateNavTreeRootNodeButton">
         <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
       </div>
       <div id="content" class="content">
@@ -37,6 +38,7 @@
     <NavNodeCreationDialog v-if="showNavNodeCreationConfirmDialog"
       :confirmDialogInputValue="parentNavNodeIdForNavNodeCreation"
       :onClickDismissButtonInConfirmDialog="dismissNavNodeCreationDialog"
+      :forRootNode="isForcreateNavTreeRootNode"
       @createNodeSuceeded="onNavNodeCreationSucceeded"
       @createNodeFailed="onNavNodeCreationFailed"
     />
@@ -177,6 +179,7 @@ export default {
         console.log(e.target.id);
         if (e.target.value === "新建") {
           console.log("新建子节点", e.target.value);
+          isForcreateNavTreeRootNode.value = false;
           handleShowNavNodeCreationConfirmDialog(e.target.id);
         }
         if (e.target.value === "编辑") {
@@ -232,8 +235,17 @@ export default {
       store.dispatch('generateNavTree');
     }
 
+    // 点击新建根节点按钮
+    const onClickCreateNavTreeRootNodeButton = ()=> {
+      isForcreateNavTreeRootNode.value = true;
+      handleShowNavNodeCreationConfirmDialog(); 
+    }
+
     // 新建节点
     const { parentNavNodeIdForNavNodeCreation, showNavNodeCreationConfirmDialog, handleShowNavNodeCreationConfirmDialog, handleDismissNavNodeCreationConfirmDialog } =  useNavNodeCreationConfirmDialogEffect();
+
+    // 是否新建根节点
+    const isForcreateNavTreeRootNode = ref(false);
 
     // 点击取消新建节点按钮
     const dismissNavNodeCreationDialog = () => {
@@ -260,6 +272,8 @@ export default {
       // 启动与关闭节点管理
       onClickManageNavTreeButton,
       onClickDisableManageNavTreeButton,
+      onClickCreateNavTreeRootNodeButton,
+      isForcreateNavTreeRootNode,
 
       // 删除节点的确认对话框
       confirmDeleteNodeDesc,
@@ -320,7 +334,7 @@ export default {
 }
 .manage_button {
   margin: .01rem 0 .01rem .05rem;
-  border-radius: .04rem;
+  // border-radius: .04rem;
   font-size: .16rem;
   text-align: center;
 }

@@ -70,7 +70,7 @@ export const useMessageDialogEffect = () => {
     transform: translate(-50%, -200%);
     width: 3rem;
     background: #FFF;
-    border-radius: .04rem;
+    // border-radius: .04rem;
     ;
 
     &__icon {
@@ -97,7 +97,6 @@ export const useMessageDialogEffect = () => {
       margin: .24rem 0 0 0;
       line-height: .26rem;
       font-size: .18rem;
-      ;
       color: #333;
       text-align: center;
     }
@@ -105,7 +104,6 @@ export const useMessageDialogEffect = () => {
     &__desc {
       margin: 0.08rem 0.1rem 0.08rem 0.1rem;
       font-size: .14rem;
-      ;
       color: #666;
       text-align: center;
       word-break: normal;
@@ -121,19 +119,15 @@ export const useMessageDialogEffect = () => {
         flex: 1;
         width: .8rem;
         line-height: .32rem;
-        border-radius: .16rem;
+        // border-radius: .16rem;
         text-align: center;
 
-        &--first {
-          margin-right: .12rem;
-          border: .01rem solid #4FB0F9;
-          color: #4FB0F9;
-        }
-
         &--last {
-          margin-left: .12rem;
           background-color: #4FB0F9;
           color: #FFF;
+        }
+        &--last:hover {
+          background-color: #1c98f7;
         }
       }
     }

@@ -243,12 +243,16 @@ export const select_nav_tree_node = (nodeId) => {
 }
 
 export const createNavTreeNode = async (parentNodeId, title, url, isRoot=false) => {
-  const response = await post('/api/nav/tree/', {
+  const postData = {
     target: url,
     content: title,
     root: isRoot,
-    parentId: parentNodeId
-  });
+    // parentId: parentNodeId
+  }
+  if (!isRoot) {
+    postData['parentId'] = parentNodeId
+  }
+  const response = await post('/api/nav/tree/', postData);
   console.log('response from post nav', response);
   return response;
 }

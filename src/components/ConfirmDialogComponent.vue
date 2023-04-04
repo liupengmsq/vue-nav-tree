@@ -76,7 +76,7 @@ export const useConfirmDialogEffect = () => {
     width: 3rem;
     height: 1.56rem;
     background: #FFF;
-    border-radius: .04rem;
+    // border-radius: .04rem;
     ;
 
     &__title {
@@ -105,7 +105,7 @@ export const useConfirmDialogEffect = () => {
         flex: 1;
         width: .8rem;
         line-height: .32rem;
-        border-radius: .16rem;
+        // border-radius: .16rem;
         text-align: center;
 
         &--first {
@@ -113,12 +113,18 @@ export const useConfirmDialogEffect = () => {
           background-color: #4FB0F9;
           color: #FFF;
         }
+        &--first:hover {
+          background-color: #1c98f7;
+        }
 
         &--last {
           margin-left: .12rem;
           border: .01rem solid #4FB0F9;
           background-color: #FFF;
           color: #4FB0F9;
+        }
+        &--last:hover {
+          color: #0091ff;
         }
       }
     }

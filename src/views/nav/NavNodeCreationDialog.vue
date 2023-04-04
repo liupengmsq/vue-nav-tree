@@ -1,35 +1,35 @@
 <template>
   <div class="mask">
     <div class="mask__content">
-      <div class="mask__content__title"><b>新建节点</b></div>
+      <div class="mask__content__title">
+        <b v-if="forRootNode">新建根节点</b>
+        <b v-else>新建节点</b>
+      </div>
       <div class="mask__content__container">
 
-        <div class="mask__content__container__group">
+        <div v-if="!forRootNode" class="mask__content__container__group">
           <label><b>父节点ID：</b><span>{{ confirmDialogInputValue }}</span></label>
         </div>
 
         <div class="mask__content__container__group">
-          <div>
+          <div class="mask__content__container__label">
             <label><b>节点链接</b></label>
           </div>
           <div class="mask__content__container__input">
             <input v-model="confirmDialogData.navNodeURL" class="mask__content__container__input__content" type="text" placeholder="输入链接" name="target" required>
           </div>
+          <p v-if="confirmDialogData.navNodeURLErrorMessage != ''" class="mask__content__container__error"> {{ confirmDialogData.navNodeURLErrorMessage }}</p>
         </div>
 
         <div class="mask__content__container__group">
-          <div>
+          <div class="mask__content__container__label">
             <label><b>节点标题</b></label>
           </div>
           <div class="mask__content__container__input">
             <input v-model="confirmDialogData.navNodeTitle" class="mask__content__container__input__content" type="text" placeholder="输入标题" name="title" required>
           </div>
+          <p v-if="confirmDialogData.navNodeTitleErrorMessage != ''" class="mask__content__container__error"> {{ confirmDialogData.navNodeTitleErrorMessage }}</p>
         </div>
-
-        <div class="mask__content__container__group"><label>
-          <input v-model="confirmDialogData.navNodeIsRoot" type="checkbox" name="isRoot"><b> 创建根节点</b></label> 
-        </div>
-
       </div>
 
       <div class="mask__content__btns">
@@ -50,26 +50,58 @@ export default {
   props: {
     confirmDialogInputValue: String,
     onClickDismissButtonInConfirmDialog: Function,
+    forRootNode: Boolean
   },
   emits: ['createNodeSuceeded', 'createNodeFailed'],
   setup(props, { emit }) {
     const confirmDialogData = reactive({
       navNodeURL: '',
       navNodeTitle: '',
-      navNodeIsRoot: false
+      navNodeURLErrorMessage: '',
+      navNodeTitleErrorMessage: '',
     });
 
     const onClickCreateButtonInConfirmDialog = (parentId) => {
-      console.log(confirmDialogData);
-      console.log(parentId);
-      nav_util.createNavTreeNode(parentId, confirmDialogData.navNodeTitle, confirmDialogData.navNodeURL, confirmDialogData.navNodeIsRoot).then((response) => {
-        if (response.Success) {
-          emit('createNodeSuceeded', response.Result.id);
-        }
-      }).catch((error) => {
-        console.log('Errors when creating node', error.response.data.Errors[0]);
-        emit('createNodeFailed', error.response.data.Errors[0]);
-      });
+      console.log("for root node:", props.forRootNode);
+      // 输入验证
+      let hasError = false;
+      if (confirmDialogData.navNodeURL === '') {
+        confirmDialogData.navNodeURLErrorMessage = '节点链接不能为空';
+        hasError = true;
+      } else {
+        confirmDialogData.navNodeURLErrorMessage = '';
+      }
+      if (confirmDialogData.navNodeTitle === '') {
+        confirmDialogData.navNodeTitleErrorMessage = '节点标题不能为空';
+        hasError = true;
+      } else {
+        confirmDialogData.navNodeTitleErrorMessage = '';
+      }
+      if (hasError) {
+        return;
+      }
+
+      if (!props.forRootNode) {
+        // 调用后端API，新建叶子节点
+        nav_util.createNavTreeNode(parentId, confirmDialogData.navNodeTitle, confirmDialogData.navNodeURL).then((response) => {
+          if (response.Success) {
+            emit('createNodeSuceeded', response.Result.id);
+          }
+        }).catch((error) => {
+          console.log('Errors when creating node', error.response.data.Errors[0]);
+          emit('createNodeFailed', error.response.data.Errors[0]);
+        });
+      } else {
+        // 调用后端API，新建根节点
+        nav_util.createNavTreeNode(null, confirmDialogData.navNodeTitle, confirmDialogData.navNodeURL, true).then((response) => {
+          if (response.Success) {
+            emit('createNodeSuceeded', response.Result.id);
+          }
+        }).catch((error) => {
+          console.log('Errors when creating node', error.response.data.Errors[0]);
+          emit('createNodeFailed', error.response.data.Errors[0]);
+        });
+      }
     }
 
     return {
@@ -102,7 +134,7 @@ export const useNavNodeCreationConfirmDialogEffect = () => {
     parentNavNodeIdForNavNodeCreation,
     showNavNodeCreationConfirmDialog,
     handleShowNavNodeCreationConfirmDialog,
-    handleDismissNavNodeCreationConfirmDialog,
+    handleDismissNavNodeCreationConfirmDialog
   }
 }
 </script>
@@ -149,7 +181,17 @@ export const useNavNodeCreationConfirmDialogEffect = () => {
       padding: 0 .16rem; // 设置内边距，将里面的输入框content与外面的input div留出距离
 
       &__group {
-        margin-top: .1rem;
+        margin-top: .2rem;
+      }
+
+      &__label {
+        margin-bottom: .1rem;
+      }
+
+      &__error {
+        color: #af0c0c;
+        background-color: #ffe0e0;
+        padding: 8px;
       }
       
       &__input {
@@ -157,7 +199,7 @@ export const useNavNodeCreationConfirmDialogEffect = () => {
         padding: 0 .16rem; // 设置内边距，将里面的输入框content与外面的input div留出距离
         background: #F9F9F9;
         border: .01rem solid rgba(0,0,0,0.10);
-        border-radius: 6px;  // 圆角
+        // border-radius: 6px;  // 圆角
         &__content {
             line-height: .48rem;
             border: none;
@@ -182,13 +224,17 @@ export const useNavNodeCreationConfirmDialogEffect = () => {
         flex: 1;
         width: .8rem;
         line-height: .32rem;
-        border-radius: .16rem;
+        // border-radius: .16rem;
         text-align: center;
 
         &--first {
           margin-right: .12rem;
           background-color: #4FB0F9;
           color: #FFF;
+          transition-duration: 0.2s;
+        }
+        &--first:hover {
+          background-color: #1c98f7;
         }
 
         &--last {
@@ -196,7 +242,12 @@ export const useNavNodeCreationConfirmDialogEffect = () => {
           border: .01rem solid #4FB0F9;
           background-color: #FFF;
           color: #4FB0F9;
+          transition-duration: 0.2s;
         }
+        &--last:hover {
+          color: #0091ff;
+        }
+
       }
     }
   }

@@ -45,7 +45,7 @@ export const useToastEffect = () => {
 
   padding: .1rem;
   background: rgba(0, 0, 0, .35); // rgba中的a是透明度的设置
-  border-radius: .05rem;
+  // border-radius: .05rem;
   color: #F5F5F5;
 }
 </style>
