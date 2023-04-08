@@ -1,4 +1,4 @@
-import { get, deleteAPI, post } from '../utils/request';
+import { get, deleteAPI, post, put } from '../utils/request';
 
 // 从后端API与localStorage构造出节点的树结构，并返回根节点
 export const getNavTree = async (manageMode=false) => {
@@ -59,6 +59,7 @@ export const getNavTree = async (manageMode=false) => {
       node.content, 
       node.root, 
       node.parentId,
+      node.target,
       nodeStatusList[node.id]?.shown, 
       nodeStatusList[node.id]?.expanded, 
       nodeStatusList[node.id]?.selected,
@@ -81,7 +82,7 @@ export const getNavTree = async (manageMode=false) => {
 }
 
 //定义一个节点的类Node
-function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false, selected=false, manageMode=false) {
+function Node(id, depth, content, isRoot, parentId, target, shown=false, expanded=false, selected=false, manageMode=false) {
   this.id = id;
   this.parentId = parentId;
 
@@ -90,6 +91,9 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
 
   // 判断当前节点是否为根节点
   this.isRoot = isRoot;
+
+  // 当前节点的U超链接URL
+  this.target = target;
 
   // 当前节点的子节点的集合
   this.childNodes = [];
@@ -114,7 +118,7 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
   }
 
   // 节点附带的内容信息，这里使用超链接。用户点击此节点后，右侧应该显示对应的内容
-  this.content = `<a id="${this.id}" href="http://localhost:8080/navtree" `;
+  this.content = `<a id="${this.id}" href="${this.target}" `;
   if (this.manageMode) {
     this.content += `style="display:inlin-block;" `;
   } else {
@@ -123,7 +127,7 @@ function Node(id, depth, content, isRoot, parentId, shown=false, expanded=false,
   if (this.selected) {
     this.content +=  `class="nav-selected"`;
   }
-  this.content += ` >` + this.id + content + `</a>`;
+  this.content += ` >` + content + `</a>`;
 
   // 判断当前节点是否为叶子节点
   this.isLeaf = function() {
@@ -247,7 +251,6 @@ export const createNavTreeNode = async (parentNodeId, title, url, isRoot=false) 
     target: url,
     content: title,
     root: isRoot,
-    // parentId: parentNodeId
   }
   if (!isRoot) {
     postData['parentId'] = parentNodeId
@@ -257,8 +260,23 @@ export const createNavTreeNode = async (parentNodeId, title, url, isRoot=false) 
   return response;
 }
 
+export const editNavTreeNode = async (nodeId, title, url) => {
+  const postData = {
+    target: url,
+    content: title,
+  }
+  const response = await put(`/api/nav/tree/${nodeId}`, postData);
+  console.log('response from put nav', response);
+  return response;
+}
+
 export const deleteNavTreeNode = async (nodeId) => {
-    const response =  await deleteAPI(`/api/nav/tree/${nodeId}`);
+  return await deleteAPI(`/api/nav/tree/${nodeId}`);
+}
+
+export const getNavTreeNodeById = async (nodeId) => {
+    const response =  await get(`/api/nav/tree/${nodeId}`);
+    console.log(response);
     return response;
 }
 

@@ -33,6 +33,21 @@ export const post = (url, data = {}) => {
     });
 }
 
+export const put = (url, data = {}) => {
+    return new Promise((resolve, reject) => {
+        instance.put(url, data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => {
+            resolve(response.data);
+        }, err => {
+            console.log('error in post', err);
+            reject(err);
+        })
+    });
+}
+
 export const deleteAPI = (url, data = {}) => {
     return new Promise((resolve, reject) => {
         instance.delete(url, data, {
@@ -42,8 +57,8 @@ export const deleteAPI = (url, data = {}) => {
         }).then((response) => {
             resolve(response.data);
         }, err => {
-            console.log('error in deleteAPI', err.response.data);
-            reject(err.response.data);
+            console.log('error in deleteAPI', err);
+            reject(err);
         })
     });
 }

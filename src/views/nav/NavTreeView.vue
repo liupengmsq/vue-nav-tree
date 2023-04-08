@@ -15,34 +15,10 @@
       </div>
     </div>
   </div>
-  <transition name="fade">
-    <ConfirmDialog v-if="showConfirmDialog" 
-      confirmDialogTitle="确认删除节点" 
-      :confirmDialogDesc="confirmDeleteNodeDesc" 
-      :confirmDialogInputValue="inputValueForConfirmDialog" 
-      :onClickConfirmButtonInConfirmDialog="onClickConfirmButtonInConfirmDialog" 
-      :onClickDismissButtonInConfirmDialog="onClickDismissButtonInConfirmDialog"
-    />
-  </transition>
 
-  <transition name="fade">
-    <MessageDialog v-if="showMessageDialog" 
-      :messageDialogTitle="messageDialogInfo.title"
-      :messageDialogDesc="messageDialogInfo.description"
-      :messageDialogSucess="messageDialogInfo.success"
-      :onClickOKButtonInMessageDialog="dismissMessageDialog"
-    />
-  </transition>
-
-  <transition name="fade">
-    <NavNodeCreationDialog v-if="showNavNodeCreationConfirmDialog"
-      :confirmDialogInputValue="parentNavNodeIdForNavNodeCreation"
-      :onClickDismissButtonInConfirmDialog="dismissNavNodeCreationDialog"
-      :forRootNode="isForcreateNavTreeRootNode"
-      @createNodeSuceeded="onNavNodeCreationSucceeded"
-      @createNodeFailed="onNavNodeCreationFailed"
-    />
-  </transition>
+  <confirm-dialog ref="confirmDialog"></confirm-dialog>
+  <message-dialog ref="messageDialog"></message-dialog>
+  <nav-node-create-dialog ref="nodeCreationDialog"></nav-node-create-dialog>
 </template>
 
 <script>
@@ -50,20 +26,24 @@ import { useStore } from 'vuex';
 import router from "@/router/index.js";
 import { computed, onMounted, ref } from 'vue';
 import * as nav_util from '../../utils/nav';
-import ConfirmDialogComponent, { useConfirmDialogEffect } from '../../components/ConfirmDialogComponent.vue'
-import MessageDialogComponent, { useMessageDialogEffect } from '../../components/MessageDialogComponent.vue'
-import NavNodeCreationDialog, { useNavNodeCreationConfirmDialogEffect } from './NavNodeCreationDialog.vue'
+
+import ConfirmDialog from '../../components/ConfirmDialog.vue'
+import MessageDialog from '../../components/MessageDialog.vue'
+import NavNodeCreateDialog from './NavNodeCreateDialog.vue'
 
 export default {
   name: 'AboutView',
   components: {
-    ConfirmDialog: ConfirmDialogComponent,
-    MessageDialog: MessageDialogComponent,
-    NavNodeCreationDialog: NavNodeCreationDialog
+    ConfirmDialog: ConfirmDialog,
+    MessageDialog: MessageDialog,
+    NavNodeCreateDialog: NavNodeCreateDialog,
   },
 
   setup () {
     const store = useStore();
+    const confirmDialog = ref(null);
+    const messageDialog = ref(null);
+    const nodeCreationDialog = ref(null);
 
     const onClickLinkOnNavNode = (e) => {
       // 取消掉所有选中的node节点
@@ -112,50 +92,6 @@ export default {
       }
     }
 
-    // 删除节点的确认对话框
-    const confirmDeleteNodeDesc = ref('');
-    const { inputValueForConfirmDialog, showConfirmDialog, handleShowConfirmDialog, handleDismissConfirmDialog } = useConfirmDialogEffect();
-
-    // 删除节点后显示结果的消息框
-    const messageDialogInfo = {
-      title: '',
-      description: '',
-      success: true
-    }
-    const { showMessageDialog, handleShowMessageDialog, handleDismissMessageDialog } = useMessageDialogEffect();
-
-    // 显示删除节点成功对话框
-    const showDeleteNodeSuccessMessageDialog = (nodeIdToBeDeleted) => {
-        messageDialogInfo.title= "完成节点删除";
-        messageDialogInfo.description = `节点 ${nodeIdToBeDeleted} 被成功删除`;
-        messageDialogInfo.success = true;
-        handleShowMessageDialog();
-    }
-
-    // 显示删除节点失败对话框
-    const showDeleteNodeFailMessageDialog = (errorMessage) => {
-      messageDialogInfo.title = "节点删除失败";
-      messageDialogInfo.description = errorMessage;
-      messageDialogInfo.success = false;
-      handleShowMessageDialog();
-    }
-
-    // 显示创建节点成功对话框
-    const showCreateNodeSuccessMessageDialog = (nodeId) => {
-        messageDialogInfo.title= "完成节点创建";
-        messageDialogInfo.description = `节点 ${nodeId} 被成功创建`;
-        messageDialogInfo.success = true;
-        handleShowMessageDialog();
-    }
-
-    // 显示创建节点失败对话框
-    const showCreateNodeFailMessageDialog = (errorMessage) => {
-      messageDialogInfo.title = "节点创建失败";
-      messageDialogInfo.description = errorMessage;
-      messageDialogInfo.success = false;
-      handleShowMessageDialog();
-    }
-
     // 节点树的HTML
     const finalHtml = computed(() => store.getters.getFinalRawHTML );
 
@@ -165,7 +101,7 @@ export default {
     });
 
     // 通过在vue的raw html的父节点上监控事件触发，来实现raw html的事件处理
-    const onNodeClicked = (e) => {
+    const onNodeClicked = async (e) => {
       // 处理当用户点击某个节点的文字
       if(e.target.tagName === 'A') {
         onClickLinkOnNavNode(e);
@@ -178,49 +114,15 @@ export default {
       if(e.target.tagName === 'INPUT') {
         console.log(e.target.id);
         if (e.target.value === "新建") {
-          console.log("新建子节点", e.target.value);
-          isForcreateNavTreeRootNode.value = false;
-          handleShowNavNodeCreationConfirmDialog(e.target.id);
+          onClickCreateNavTreeNodeButton(e.target.id);
         }
         if (e.target.value === "编辑") {
-          console.log("编辑当前节点", e.target.value);
+          console.log("编辑当前节点", e.target.id);
         }
         if (e.target.value === "删除") {
-          confirmDeleteNodeDesc.value = "节点 " + e.target.id + " 将被删除！！";
-          handleShowConfirmDialog(e.target.id);
+          onClickDeleteNavTreeNodeButton(e.target.id);
         }
       }
-    }
-
-    // 点击确认删除节点按钮
-    const onClickConfirmButtonInConfirmDialog = (nodeIdToBeDeleted) => {
-      // 调用后端删除节点API
-      nav_util.deleteNavTreeNode(nodeIdToBeDeleted).then((response)=> {
-        if (response.Success) {
-          // 删除成功
-          onClickDismissButtonInConfirmDialog();
-          showDeleteNodeSuccessMessageDialog(nodeIdToBeDeleted);
-        } else { 
-          //删除失败
-          onClickDismissButtonInConfirmDialog();
-          showDeleteNodeFailMessageDialog(response.Errors);
-        }
-      }).catch((error) => {
-        //删除失败
-        onClickDismissButtonInConfirmDialog();
-        showDeleteNodeFailMessageDialog(error.Errors[0]);
-      });
-    }
-
-    // 点击取消删除节点按钮
-    const onClickDismissButtonInConfirmDialog = () => {
-      handleDismissConfirmDialog();
-    }
-
-    // 点击消息框的确认按钮
-    const dismissMessageDialog = () => {
-      handleDismissMessageDialog();
-      router.go(router.currentRoute);
     }
 
     // 点击管理按钮
@@ -237,29 +139,92 @@ export default {
 
     // 点击新建根节点按钮
     const onClickCreateNavTreeRootNodeButton = ()=> {
-      isForcreateNavTreeRootNode.value = true;
-      handleShowNavNodeCreationConfirmDialog(); 
+      onClickCreateNavTreeNodeButton(null, true);
     }
 
-    // 新建节点
-    const { parentNavNodeIdForNavNodeCreation, showNavNodeCreationConfirmDialog, handleShowNavNodeCreationConfirmDialog, handleDismissNavNodeCreationConfirmDialog } =  useNavNodeCreationConfirmDialogEffect();
-
-    // 是否新建根节点
-    const isForcreateNavTreeRootNode = ref(false);
-
-    // 点击取消新建节点按钮
-    const dismissNavNodeCreationDialog = () => {
-      handleDismissNavNodeCreationConfirmDialog();
+    const onClickCreateNavTreeNodeButton = async (parentNodeId, forRootNode=false) => {
+      try {
+        const confirmResult = await nodeCreationDialog.value.show({
+          title: '新建节点',
+          forRootNode: forRootNode,
+          parentNodeId: parentNodeId,
+          onClickOKButton: async function (nodeTitle, nodeURL) {
+            if(forRootNode) {
+              return nav_util.createNavTreeNode(null, nodeTitle, nodeURL, true);
+            } else {
+              return nav_util.createNavTreeNode(parentNodeId, nodeTitle, nodeURL);
+            }
+          }
+        });
+        console.log('confirm dialog result:', confirmResult);
+        if (confirmResult.Success) {
+          // 创建成功
+          await messageDialog.value.show({
+            title: '节点创建成功',
+            message: `节点 ${confirmResult?.Result?.id} 创建成功！`,
+            success: true,
+          });
+          // 刷新页面
+          router.go(router.currentRoute);
+        } else {
+          // 创建失败
+          await messageDialog.value.show({
+            title: '节点创建失败',
+            message: confirmResult.Errors[0],
+            success: false,
+          })
+        }
+      } catch (error) {
+        console.error(error);
+        // 创建失败
+        await messageDialog.value.show({
+          title: '节点创建失败',
+          message: error,
+          success: false,
+        })
+      }
     }
 
-    const onNavNodeCreationSucceeded = (newNodeId) => {
-      dismissNavNodeCreationDialog();
-      showCreateNodeSuccessMessageDialog(newNodeId);
-    }
-
-    const onNavNodeCreationFailed = (errorMessage) => {
-      dismissNavNodeCreationDialog();
-      showCreateNodeFailMessageDialog(errorMessage);
+    // 处理删除节点的逻辑
+    const onClickDeleteNavTreeNodeButton = async (nodeId) => {
+      try {
+        const confirmResult = await confirmDialog.value.show({
+          // 确认对话框的标题
+          title: '确认删除节点',
+          // 确认对话框的消息
+          message: `节点 ${nodeId} 将被删除！`,
+          // 点击确认按钮后执行的方法
+          onClickOKButton: async function () {
+            // 调用后端删除节点API
+            return await nav_util.deleteNavTreeNode(nodeId);
+          }
+        })
+        console.log('confirm dialog result:', confirmResult);
+        if (confirmResult.Success) {
+          // 删除成功
+          await messageDialog.value.show({
+            title: '节点删除成功',
+            message: `节点 ${nodeId} 删除成功！`,
+            success: true,
+          });
+          // 刷新页面
+          router.go(router.currentRoute);
+        } else {
+          // 删除失败
+          await messageDialog.value.show({
+            title: '节点删除失败',
+            message: confirmResult.Errors[0],
+            success: false,
+          })
+        }
+      } catch (error) {
+        // 删除失败
+        await messageDialog.value.show({
+          title: '节点删除失败',
+          message: error.response.data.Errors[0],
+          success: false,
+        })
+      }
     }
 
     return {
@@ -273,29 +238,10 @@ export default {
       onClickManageNavTreeButton,
       onClickDisableManageNavTreeButton,
       onClickCreateNavTreeRootNodeButton,
-      isForcreateNavTreeRootNode,
 
-      // 删除节点的确认对话框
-      confirmDeleteNodeDesc,
-      inputValueForConfirmDialog,
-      showConfirmDialog,
-      handleShowConfirmDialog,
-      onClickConfirmButtonInConfirmDialog,
-      onClickDismissButtonInConfirmDialog,
-
-      // 删除节点后的结果消息框
-      messageDialogInfo,
-      showMessageDialog,
-      handleShowMessageDialog,
-      dismissMessageDialog,
-
-      // 创建节点的对话框
-      parentNavNodeIdForNavNodeCreation,
-      showNavNodeCreationConfirmDialog,
-      handleShowNavNodeCreationConfirmDialog,
-      dismissNavNodeCreationDialog,
-      onNavNodeCreationSucceeded,
-      onNavNodeCreationFailed
+      confirmDialog,
+      messageDialog,
+      nodeCreationDialog,
     }
   }
 }

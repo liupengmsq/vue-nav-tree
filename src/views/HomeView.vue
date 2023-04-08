@@ -1,18 +1,47 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>Delete Page</h1>
+    <button class="delete-btn" @click="doDelete">Delete Page</button>
+    <message-dialog ref="messageDialog"></message-dialog>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import { ref } from 'vue';
+import MessageDialog from '../components/MessageDialog.vue'
 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+  components: { MessageDialog },
+  setup() {
+    const messageDialog = ref(null);
+
+    const doDelete = async () => {
+      await messageDialog.value.show({
+        title: 'Delete Page',
+        message: 'Are you sure you want to delete this page? It cannot be undone.',
+      })
+
+      console.log('done!!!');
+    }
+
+    return {
+      messageDialog,
+      doDelete
+    }
   }
 }
 </script>
+
+<style scoped>
+.delete-btn {
+  padding: 0.5em 1em;
+  background-color: #eccfc9;
+  color: #c5391a;
+  border: 2px solid #ea3f1b;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+</style>
