@@ -9,16 +9,14 @@
       </div>
       <div id="content" class="content">
         <h1>这里是标题</h1>
-        <p>
-          这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，这里是内容，
-        </p>
+        <p>这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 </p>
       </div>
     </div>
   </div>
 
   <confirm-dialog ref="confirmDialog"></confirm-dialog>
   <message-dialog ref="messageDialog"></message-dialog>
-  <nav-node-create-dialog ref="nodeCreationDialog"></nav-node-create-dialog>
+  <nav-node-create-edit-dialog ref="nodeCreateEditDialog"></nav-node-create-edit-dialog>
 </template>
 
 <script>
@@ -29,21 +27,21 @@ import * as nav_util from '../../utils/nav';
 
 import ConfirmDialog from '../../components/ConfirmDialog.vue'
 import MessageDialog from '../../components/MessageDialog.vue'
-import NavNodeCreateDialog from './NavNodeCreateDialog.vue'
+import NavNodeCreateEditDialog from './NavNodeCreateEditDialog.vue'
 
 export default {
   name: 'AboutView',
   components: {
-    ConfirmDialog: ConfirmDialog,
-    MessageDialog: MessageDialog,
-    NavNodeCreateDialog: NavNodeCreateDialog,
+    ConfirmDialog,
+    MessageDialog,
+    NavNodeCreateEditDialog,
   },
 
   setup () {
     const store = useStore();
     const confirmDialog = ref(null);
     const messageDialog = ref(null);
-    const nodeCreationDialog = ref(null);
+    const nodeCreateEditDialog = ref(null);
 
     const onClickLinkOnNavNode = (e) => {
       // 取消掉所有选中的node节点
@@ -117,7 +115,7 @@ export default {
           onClickCreateNavTreeNodeButton(e.target.id);
         }
         if (e.target.value === "编辑") {
-          console.log("编辑当前节点", e.target.id);
+          onClickEditNavTreeNodeButton(e.target.id);
         }
         if (e.target.value === "删除") {
           onClickDeleteNavTreeNodeButton(e.target.id);
@@ -142,12 +140,15 @@ export default {
       onClickCreateNavTreeNodeButton(null, true);
     }
 
+    // 处理新建节点的逻辑
     const onClickCreateNavTreeNodeButton = async (parentNodeId, forRootNode=false) => {
       try {
-        const confirmResult = await nodeCreationDialog.value.show({
+        const confirmResult = await nodeCreateEditDialog.value.show({
           title: '新建节点',
           forRootNode: forRootNode,
           parentNodeId: parentNodeId,
+          forEdit: false,
+          okButton: '新建',
           onClickOKButton: async function (nodeTitle, nodeURL) {
             if(forRootNode) {
               return nav_util.createNavTreeNode(null, nodeTitle, nodeURL, true);
@@ -179,6 +180,52 @@ export default {
         // 创建失败
         await messageDialog.value.show({
           title: '节点创建失败',
+          message: error,
+          success: false,
+        })
+      }
+    }
+
+    // 处理节点编辑的逻辑
+    const onClickEditNavTreeNodeButton = async (currentNodeId) => {
+      try {
+        const currentNodeInfo = await nav_util.getNavTreeNodeById(currentNodeId);
+        console.log('currentNodeInfo', currentNodeInfo);
+
+        const confirmResult = await nodeCreateEditDialog.value.show({
+          title: '编辑节点',
+          currentNodeId: currentNodeId,
+          forEdit: true,
+          navNodeURL: currentNodeInfo.Result.target,
+          navNodeTitle: currentNodeInfo.Result.content,
+          okButton: '更新',
+          onClickOKButton: async function (nodeTitle, nodeURL) {
+            return nav_util.editNavTreeNode(currentNodeId, nodeTitle, nodeURL);
+          }
+        });
+        console.log('confirm dialog result:', confirmResult);
+        if (confirmResult.Success) {
+          // 创建成功
+          await messageDialog.value.show({
+            title: '节点更改成功',
+            message: `节点 ${currentNodeId} 更改成功！`,
+            success: true,
+          });
+          // 刷新页面
+          router.go(router.currentRoute);
+        } else {
+          // 创建失败
+          await messageDialog.value.show({
+            title: '节点更改失败',
+            message: confirmResult.Errors[0],
+            success: false,
+          })
+        }
+      } catch (error) {
+        console.error(error);
+        // 创建失败
+        await messageDialog.value.show({
+          title: '节点更改失败',
           message: error,
           success: false,
         })
@@ -239,15 +286,17 @@ export default {
       onClickDisableManageNavTreeButton,
       onClickCreateNavTreeRootNodeButton,
 
+      // 对话框
       confirmDialog,
       messageDialog,
-      nodeCreationDialog,
+      nodeCreateEditDialog,
     }
   }
 }
 </script>
-// 这里的css不能使用scoped局部样式, 因为我们要应用到raw html上
+
 <style lang="scss">
+// 这里的css不能使用scoped局部样式, 因为我们要应用到raw html上
 .wrapper {
   // 背景图片
   background-color: #2d76c8;

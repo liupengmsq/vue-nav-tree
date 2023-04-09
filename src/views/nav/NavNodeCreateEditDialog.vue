@@ -5,17 +5,19 @@
         <b>{{ title }}</b>
       </div>
       <div class="content__container">
-        <div v-if="!forRootNode" class="content__container__group">
+        <div v-if="!forRootNode && !forEdit" class="content__container__group">
           <label><b>父节点ID：</b><span>{{ parentNodeId }}</span></label>
+        </div>
+
+        <div v-if="forEdit" class="content__container__group">
+          <label><b>节点ID：</b><span>{{ currentNodeId }}</span></label>
         </div>
 
         <div class="content__container__group">
           <div class="content__container__label">
             <label><b>节点链接</b></label>
           </div>
-          <div class="content__container__input">
-            <input v-model="navNodeURL" class="content__container__input__content" type="text" placeholder="输入链接" name="target" required>
-          </div>
+          <input v-focus tabindex="1" v-model="navNodeURL" class="content__container__input" type="text" placeholder="输入链接" name="target" required>
           <p v-if="navNodeURLErrorMessage != ''" class="content__container__error"> {{ navNodeURLErrorMessage }}</p>
         </div>
 
@@ -23,16 +25,14 @@
           <div class="content__container__label">
             <label><b>节点标题</b></label>
           </div>
-          <div class="content__container__input">
-            <input v-model="navNodeTitle" class="content__container__input__content" type="text" placeholder="输入标题" name="title" required>
-          </div>
+          <input tabindex="2"  v-model="navNodeTitle" class="content__container__input" type="text" placeholder="输入标题" name="title" required>
           <p v-if="navNodeTitleErrorMessage != ''" class="content__container__error"> {{ navNodeTitleErrorMessage }}</p>
         </div>
       </div>
 
       <div class="content__btns">
-        <div class="content__btns__btn content__btns__btn--first" @click="confirm"> {{ okButton }}</div>
-        <div class="content__btns__btn content__btns__btn--last" @click="cancel">{{ cancelButton }}</div>
+        <div tabindex="3" class="content__btns__btn content__btns__btn--first" @click="confirm"> {{ okButton }}</div>
+        <div tabindex="4" class="content__btns__btn content__btns__btn--last" @click="cancel">{{ cancelButton }}</div>
       </div>
     </div>
   </base-dialog>
@@ -43,14 +43,16 @@ import { reactive, toRefs, ref } from 'vue';
 import BaseDialog from '../../components/BaseDialog.vue'
 
 export default {
-  name: 'NavNodeCreateDialog',
+  name: 'NavNodeCreateEditDialog',
   components: { BaseDialog },
   setup() {
     // Parameters that change depending on the type of dialogue
     const data = reactive({
       title: undefined,
       forRootNode: false,
+      forEdit: false,
       parentNodeId: undefined,
+      currentNodeId: undefined,
       navNodeURL: '',
       navNodeTitle: '',
       navNodeURLErrorMessage: '',
@@ -73,6 +75,17 @@ export default {
       data.title = opts.title;
       data.forRootNode = opts.forRootNode;
       data.parentNodeId = opts.parentNodeId;
+      data.forEdit = opts.forEdit;
+      data.navNodeURL = '';
+      data.navNodeTitle = '';
+
+      // for edit
+      if (opts.forEdit) {
+        data.currentNodeId = opts.currentNodeId;
+        data.navNodeURL = opts.navNodeURL;
+        data.navNodeTitle = opts.navNodeTitle;
+      }
+
       if (opts.okButton) {
         data.okButton = opts.okButton;
       }
@@ -84,6 +97,7 @@ export default {
 
       // Once we set our config, we tell the popup modal to open
       baseDialog.value.open();
+
       // Return promise so the caller can get results
       return new Promise((resolve, reject) => {
         returnMethods.resolvePromise= resolve
@@ -129,24 +143,28 @@ export default {
       title, 
       forRootNode,
       parentNodeId,
+      currentNodeId,
       navNodeURL,
       navNodeTitle,
       navNodeURLErrorMessage,
       navNodeTitleErrorMessage, 
       okButton, 
-      cancelButton 
+      cancelButton ,
+      forEdit
     } = toRefs(data);
 
     return {
       title,
       forRootNode,
       parentNodeId,
+      currentNodeId,
       navNodeURL,
       navNodeTitle,
       navNodeURLErrorMessage,
       navNodeTitleErrorMessage, 
       okButton,
       cancelButton,
+      forEdit,
       baseDialog,
       show,
       confirm,
@@ -199,24 +217,13 @@ export default {
       background-color: #ffe0e0;
       padding: 8px;
     }
-    
+
     &__input {
-      height: .48rem;
-      padding: 0 .16rem; // 设置内边距，将里面的输入框content与外面的input div留出距离
-      background: #F9F9F9;
-      border: .01rem solid rgba(0,0,0,0.10);
-      &__content {
-          line-height: .48rem;
-          border: none;
-          outline: none;
-          width: 100%;
-          background: none;
-          font-size: .16rem;
-          color: #777;
-          &::placeholder { // 伪元素选择器，选择input中的placeholder的样式
-              color: #777;
-          }
-      }
+      width: 100%;
+      margin-bottom: 20px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
     }
   }
 

@@ -10,7 +10,12 @@ const routes = [
   {
     path: '/navtree',
     name: 'navTree',
-    component: () => import(/* webpackChunkName: "about" */ '../views/nav/NavTreeView.vue')
+    component: () => import(/* webpackChunkName: "navtree" */ '../views/nav/NavTreeView.vue')
+  },
+  {
+    path: '/markdown',
+    name: 'markdown',
+    component: () => import(/* webpackChunkName: "markdown" */ '../views/wiki/MarkdownEditorView.vue')
   }
 ]
 
