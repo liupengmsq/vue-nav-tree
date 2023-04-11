@@ -1,17 +1,9 @@
 <template>
-  <div class="wrapper">
-    <div class="main">
-      <div class="nav_container">
-        <input type="button" value="管理" @click="onClickManageNavTreeButton">
-        <input type="button" value="返回" @click="onClickDisableManageNavTreeButton">
-        <input type="button" value="新建根节点" @click="onClickCreateNavTreeRootNodeButton">
-        <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
-      </div>
-      <div id="content" class="content">
-        <h1>这里是标题</h1>
-        <p>这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 这里是内容 </p>
-      </div>
-    </div>
+  <div class="nav_container">
+    <input type="button" value="管理" @click="onClickManageNavTreeButton">
+    <input type="button" value="返回" @click="onClickDisableManageNavTreeButton">
+    <input type="button" value="新建根节点" @click="onClickCreateNavTreeRootNodeButton">
+    <div id="nav" class="nav" v-html="finalHtml" @click="onNodeClicked"></div>
   </div>
 
   <confirm-dialog ref="confirmDialog"></confirm-dialog>
@@ -21,7 +13,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import router from "@/router/index.js";
+import router from "@/router/index.js"; 
 import { computed, onMounted, ref } from 'vue';
 import * as nav_util from '../../utils/nav';
 
@@ -297,21 +289,6 @@ export default {
 
 <style lang="scss">
 // 这里的css不能使用scoped局部样式, 因为我们要应用到raw html上
-.wrapper {
-  // 背景图片
-  background-color: #2d76c8;
-  background-image: url('~@/assets/shadow_light.png'), url('~@/assets/pixels.png');
-  background-position: 0 0, 0 0;
-  background-repeat: repeat;
-}
-.main {
-  display: flex;
-  max-width: 1760px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: .5rem;
-}
 .nav_container {
   background-color: #FFF;
   border-right: 1px solid #dddddd;
@@ -333,11 +310,4 @@ export default {
   font-size: .16rem;
   text-align: center;
 }
-
-.content {
-  flex: 1;
-  background-color: #FFF;
-  padding-left: .1rem;
-}
-
 </style>

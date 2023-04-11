@@ -118,7 +118,7 @@ function Node(id, depth, content, isRoot, parentId, target, shown=false, expande
   }
 
   // 节点附带的内容信息，这里使用超链接。用户点击此节点后，右侧应该显示对应的内容
-  this.content = `<a id="${this.id}" href="${this.target}" `;
+  this.content = `<a id="${this.id}" href="wiki?id=${this.target}" `;
   if (this.manageMode) {
     this.content += `style="display:inlin-block;" `;
   } else {
@@ -276,6 +276,12 @@ export const deleteNavTreeNode = async (nodeId) => {
 
 export const getNavTreeNodeById = async (nodeId) => {
     const response =  await get(`/api/nav/tree/${nodeId}`);
+    console.log(response);
+    return response;
+}
+
+export const getNavTreeRootNode = async () => {
+    const response =  await get(`/api/nav/root`);
     console.log(response);
     return response;
 }

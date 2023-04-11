@@ -15,7 +15,7 @@
 
         <div class="content__container__group">
           <div class="content__container__label">
-            <label><b>节点链接</b></label>
+            <label><b>Wiki页面ID</b></label>
           </div>
           <input v-focus tabindex="1" v-model="navNodeURL" class="content__container__input" type="text" placeholder="输入链接" name="target" required>
           <p v-if="navNodeURLErrorMessage != ''" class="content__container__error"> {{ navNodeURLErrorMessage }}</p>
